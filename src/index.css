@@ -1,3 +1,64 @@
-body {
-  background-color: lightgrey;
+code {
+  font-size: 16pt;
+  white-space: pre-wrap;
+}
+
+md-checkbox {
+  margin-bottom: 0;
+}
+
+body, .question {
+  background-color: #f2f2f2;
+}
+
+.question {
+  padding: 16px;
+}
+
+.question-content {
+  font-weight: bold;
+  font-size: 16pt;
+
+}
+
+.answer {
+  margin: 16px 0;
+  background-color: white;
+}
+
+.answer-content {
+  padding: 8px;
+  position: relative;
+  cursor: pointer;
+}
+.answer-content:focus {
+  outline:0;
+}
+
+.answer-result-bar {
+  height: 20px;
+}
+.answer-result-text {
+  font-weight: bold;
+  margin-left: 8px;
+}
+.answer-correct {
+  background-color: #4CAF50;
+}
+.answer-wrong {
+  background-color: #F44336;
+}
+
+.answer-result.ng-enter,
+.answer-result.ng-enter .answer-result-bar {
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  height: 0;
+}
+.answer-result.ng-enter .answer-result-text {
+  opacity: 0;
+}
+
+.answer-result.ng-enter.ng-enter-active,
+.answer-result.ng-enter.ng-enter-active .answer-result-bar {
+  height: 20px;
 }

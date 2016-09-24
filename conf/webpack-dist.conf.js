@@ -58,6 +58,9 @@ module.exports = {
     new ExtractTextPlugin('index-[contenthash].css'),
     new webpack.optimize.CommonsChunkPlugin({name: 'vendor'})
   ],
+  node: {
+    fs: 'empty'
+  },
   postcss: () => [autoprefixer],
   output: {
     path: path.join(process.cwd(), conf.paths.dist),

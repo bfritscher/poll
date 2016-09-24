@@ -1,3 +1,26 @@
-<div class="component">
-  <h2>{{$ctrl.text}}</h2>
+<div layout="column" layout-fill>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2 ng-click="$ctrl.setQuestion()">Quiz: Jointure (1/10) <span ng-if="$ctrl.questionIsMultiple()">♣</span></h2>
+      <span flex></span>
+      <md-button ng-click="$ctrl.setAnswers()">answers</md-button>
+    </div>
+  </md-toolbar>
+  <md-content class="question" flex>
+    <div class="question-content" ng-bind-html="$ctrl.question.content"></div>
+
+    <div ng-repeat="answer in $ctrl.question.answers"
+         class="answer md-whiteframe-1dp"
+         layout="column">
+      <div ng-disabled="$ctrl.isResult()" class="answer-content" layout="row" ng-click="$ctrl.toggleAnswer($index)" md-ink-ripple="#2196f3">
+        <div><md-checkbox ng-disabled="$ctrl.isResult()" ng-checked="$ctrl.exists($index, $ctrl.answer)" aria-label="{{$answer.content}}" tabindex="{{$index + 1}}"></md-checkbox></div>
+        <div ng-bind-html="answer.content"></div>
+      </div>
+      <div class="answer-result" layout="row" ng-if="$ctrl.isResult()">
+        <div class="answer-result-bar" ng-class="{'answer-correct': answer.correct, 'answer-wrong': !answer.correct}"
+            ng-style="{'width': $ctrl.answers[$index]/$ctrl.votersTotal*100 + '%'}"></div>
+        <div class="answer-result-text">{{$ctrl.answers[$index]}}</div>
+      </div>
+    </div>
+  </md-content>
 </div>

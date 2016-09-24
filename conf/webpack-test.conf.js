@@ -31,6 +31,9 @@ module.exports = {
     ]
   },
   plugins: [],
+  node: {
+    fs: 'empty'
+  },
   debug: true,
   devtool: 'source-map'
 };

@@ -52,6 +52,9 @@ module.exports = {
       template: conf.path.src('index.html')
     })
   ],
+  node: {
+    fs: 'empty'
+  },
   postcss: () => [autoprefixer],
   debug: true,
   devtool: 'source-map',

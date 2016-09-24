@@ -19,5 +19,13 @@ angular
     'ngAnimate'
   ])
   .config(routesConfig)
+  .config(function ($sceProvider) {
+    $sceProvider.enabled(false);
+  })
+  .config(function ($mdThemingProvider) {
+    $mdThemingProvider.theme('default')
+      .primaryPalette('blue')
+      .accentPalette('blue-grey');
+  })
   .component('app', require('./app/hello'))
   .component('question', require('./app/question'));
