@@ -4,6 +4,7 @@ require('angular-ui-router');
 require('angular-material');
 require('angular-material/angular-material.css');
 require('angular-animate');
+require('ng-file-upload');
 
 var routesConfig = require('./routes');
 
@@ -16,7 +17,8 @@ angular
   .module(app, [
     'ui.router',
     'ngMaterial',
-    'ngAnimate'
+    'ngAnimate',
+    'ngFileUpload'
   ])
   .config(routesConfig)
   .config(function ($sceProvider) {
@@ -27,5 +29,11 @@ angular
       .primaryPalette('blue')
       .accentPalette('blue-grey');
   })
-  .component('app', require('./app/hello'))
-  .component('question', require('./app/question'));
+  .service('com', require('./app/services/com'))
+  .component('home', require('./app/components/home'))
+  .component('lobby', require('./app/components/room/lobby'))
+  .component('results', require('./app/components/room/results'))
+  .component('question', require('./app/components/room/question'))
+  .component('room', require('./app/components/room/room'))
+  .component('connection', require('./app/components/shared/connection'))
+  .component('admin', require('./app/components/admin/admin'));

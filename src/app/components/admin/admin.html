@@ -1,0 +1,30 @@
+<div layout="column" layout-fill>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2 ui-sref="home">Admin: {{$ctrl.com.data.room.name}}</h2>
+      <span flex></span>
+    </div>
+  </md-toolbar>
+  <md-content>
+    <div ng-if="$ctrl.importError">{{$ctrl.importError}}</div>
+    <div>
+      switch lobby,
+      <div ng-repeat="question in $ctrl.com.data.room.questions track by $index">
+        {{$index}}
+      </div>
+      results
+    </div>
+    previous, next
+
+
+      <div class="dropfiles" ngf-drop="$ctrl.parseFiles($files)" ngf-select="$ctrl.parseFiles($files)" ng-model="files" class="drop-box"
+        ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false">Drop yaml question files or click to upload</div>
+
+      <pre>
+        reset question on question
+        view answers count
+
+        NEXT: create question
+      </pre>
+  </md-content>
+</div>

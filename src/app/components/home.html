@@ -1,0 +1,23 @@
+<div layout="column" layout-fill>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Poll</h2>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <md-button ng-if="$ctrl.com.data.user.isAdmin" class="md-fab fab-add" ng-click="$ctrl.addRoom()">
+            <md-icon>add</md-icon>
+        </md-button>
+        <md-list>
+            <md-divider ng-repeat-start="room in $ctrl.com.data.rooms track by $index"></md-divider>
+            <md-list-item ng-repeat-end ui-sref="room({name: room})">
+                <p>{{room}}</p>
+                <md-button ng-if="$ctrl.com.data.user.isAdmin" class="md-warn" ui-sref="admin({name: room})">admin</md-button>
+            </md-list-item>
+            <md-list-item class="error" ng-if="$ctrl.com.data.rooms.length == 0">
+                No sessions found
+            </md-list-item>
+            <md-divider></md-divider>
+        </md-list>
+    </md-content>
+</div>

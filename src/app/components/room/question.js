@@ -1,8 +1,8 @@
-var YAML = require('yamljs');
-
-function questionController($http) {
+function questionController(com) {
+  "ngInject";
   var $ctrl = this;
-
+  $ctrl.com = com;
+/*
   $http.get('quiz/jointures.yml').then(function (res) {
     $ctrl.data = YAML.parse(res.data);
     $ctrl.setQuestion(0);
@@ -17,6 +17,7 @@ function questionController($http) {
       1
     ];
   };
+*/
 
   this.votersTotal = 10;
   this.answer = [];
@@ -53,19 +54,6 @@ function questionController($http) {
 
   this.exists = function (key, list) {
     return list.indexOf(key) > -1;
-  };
-
-  this.questionIsMultiple = function () {
-    if (!this.question) {
-      return false;
-    }
-    var correctCount = this.question.answers.reduce(function (total, answer) {
-      if (answer.correct) {
-        total++;
-      }
-      return total;
-    }, 0);
-    return correctCount > 1;
   };
 }
 

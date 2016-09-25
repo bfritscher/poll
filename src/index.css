@@ -1,3 +1,9 @@
+.fab-add {
+  position: fixed;
+  bottom: 32px;
+  right: 16px;
+}
+
 code {
   font-size: 16pt;
   white-space: pre-wrap;
@@ -61,4 +67,30 @@ body, .question {
 .answer-result.ng-enter.ng-enter-active,
 .answer-result.ng-enter.ng-enter-active .answer-result-bar {
   height: 20px;
+}
+
+/* shared */
+.error {
+  color: #F44336;
+}
+
+.connection {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+}
+
+
+/* admin */
+
+.dropfiles {
+  border: 2px dashed #2196f3;
+  padding: 16px;
+
+}
+
+.dragover {
+  border-color: #3F51B5;
+  background-color: rgba(0,0,0,0.1)
 }

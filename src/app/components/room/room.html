@@ -1,0 +1,14 @@
+<div layout="column" layout-fill>
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2  ui-sref="home">Quiz: Jointure (1/10) <span ng-if="$ctrl.questionIsMultiple()">♣</span></h2>
+       <span flex></span>
+       <div>
+         {{$ctrl.com.data.room.voters.length}}
+       </div>
+    </div>
+  </md-toolbar>
+  <question ng-if="$ctrl.com.data.room.state == 'question'"></question>
+  <lobby ng-if="$ctrl.com.data.room.state == 'lobby'"></lobby>
+  <results ng-if="$ctrl.com.data.room.state == 'results'"></results>
+</div>
