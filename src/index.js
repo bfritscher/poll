@@ -30,6 +30,7 @@ angular
       .accentPalette('blue-grey');
   })
   .service('com', require('./app/services/com'))
+  .service('avatars', require('./app/services/avatars'))
   .component('home', require('./app/components/home'))
   .component('lobby', require('./app/components/room/lobby'))
   .component('results', require('./app/components/room/results'))

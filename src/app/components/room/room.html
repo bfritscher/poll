@@ -1,5 +1,5 @@
 <div layout="column" layout-fill>
-  <md-toolbar>
+  <md-toolbar class="md-whiteframe-1dp">
     <div class="md-toolbar-tools">
       <h2  ui-sref="home">Quiz: Jointure (1/10) <span ng-if="$ctrl.questionIsMultiple()">♣</span></h2>
        <span flex></span>
@@ -8,7 +8,7 @@
        </div>
     </div>
   </md-toolbar>
-  <question ng-if="$ctrl.com.data.room.state == 'question'"></question>
-  <lobby ng-if="$ctrl.com.data.room.state == 'lobby'"></lobby>
-  <results ng-if="$ctrl.com.data.room.state == 'results'"></results>
+  <question ng-if="$ctrl.com.data.room.state == 'question'" flex></question>
+  <lobby ng-if="$ctrl.com.data.room.state == 'lobby'" flex></lobby>
+  <results ng-if="$ctrl.com.data.room.state == 'results'" flex></results>
 </div>

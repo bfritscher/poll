@@ -1,5 +1,4 @@
-/* global Primus */
-// var Primus = require('../../lib/primus');
+var Primus = require('../../lib/primus');
 
 function Com($rootScope, $log, $state, $q) {
   "ngInject";
@@ -12,7 +11,7 @@ function Com($rootScope, $log, $state, $q) {
   var deferred = $q.defer();
   self.ready = deferred.promise;
 
-  var primus = Primus.connect('https://marmix.ig.he-arc.ch');
+  var primus = Primus.connect('http://localhost:3033');
   primus.on('open', function () {
     primus.on('data', function (data) {
       data = data || {};
@@ -46,8 +45,6 @@ function Com($rootScope, $log, $state, $q) {
       if (data.a === 'close') {
         $state.go('home');
       }
-
-
       // state
         // lobby
         // question
@@ -109,7 +106,4 @@ Com.prototype.addQuestion = function (question) {
   });
 };
 
-
-
 module.exports = Com;
-

@@ -1,1 +1,20 @@
-<div ng-repeat="user in $ctrl.com.data.room.voters track by $index">{{user}}</div>
+<md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
+    <md-toolbar class="md-whiteframe-1dp">
+        <div class="md-toolbar-tools">
+        <h2>Select Avatar</h2>
+        </div>
+    </md-toolbar>
+    <md-content layout="row" layout-wrap layout-padding flex>
+        <md-button aria-label="{{img}}" ng-class="{selected: $ctrl.test == $index}" flex="none" class="md-icon-button avatar-select" ng-repeat="img in $ctrl.avatars.icons" ng-click="$ctrl.selectAvatar($index)">
+            <md-icon md-svg-icon="images/avatars/{{img}}"></md-icon>
+        </md-button>
+    </md-content>
+</md-sidenav>
+<md-content layout-fill>
+    <md-list class="md-dense" layout="row" layout-wrap>
+        <!-- $ctrl.com.data.room.voters -->
+        <md-list-item ng-repeat="user in $ctrl.names track by $index" flex="100" flex-gt-xs="50" flex-gt-sm="33" flex-gt-md="25" flex-gt-lg="20" ng-click="$ctrl.toggleLeft()">
+            <img ng-src="images/avatars/{{$ctrl.avatars.icons[$ctrl.test || $index % $ctrl.avatars.icons.length]}}" class="md-avatar" alt="{{user}}" />
+            <div class="md-list-item-text">{{user}}</div></md-list-item>
+    </md-list>
+</md-content>

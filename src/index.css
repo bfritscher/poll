@@ -13,11 +13,11 @@ md-checkbox {
   margin-bottom: 0;
 }
 
-body, .question {
+body, question {
   background-color: #f2f2f2;
 }
 
-.question {
+question {
   padding: 16px;
 }
 
@@ -67,6 +67,19 @@ body, .question {
 .answer-result.ng-enter.ng-enter-active,
 .answer-result.ng-enter.ng-enter-active .answer-result-bar {
   height: 20px;
+}
+
+/* lobby */
+.md-button.md-icon-button.avatar-select {
+  width: 52px;
+  height: 52px;
+}
+.avatar-select md-icon {
+  width: 36px;
+  height: 36px;
+}
+.avatar-select.selected svg {
+  filter: grayscale(100%);
 }
 
 /* shared */
