@@ -41,14 +41,14 @@ function Com($rootScope, $log, $state, $q) {
         self.data.room = data.room;
       }
 
-      // close
       if (data.a === 'close') {
         $state.go('home');
       }
-      // state
-        // lobby
-        // question
-        // results
+
+      if (data.a === 'state') {
+        self.data.room.state = data.v;
+        // if question set q ? index? or get question?
+      }
 
       if (data.a === 'voters') {
         self.data.room.voters = data.voters;
@@ -102,6 +102,15 @@ Com.prototype.addQuestion = function (question) {
   this.ready.then(function (primus) {
     if (self.data.room && self.data.room.name) {
       primus.write({a: 'add_question', r: self.data.room.name, q: question});
+    }
+  });
+};
+
+Com.prototype.setState = function (state, option) {
+  var self = this;
+  this.ready.then(function (primus) {
+    if (self.data.room && self.data.room.name) {
+      primus.write({a: 'set_state', r: self.data.room.name, v: state, q: option});
     }
   });
 };

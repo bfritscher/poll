@@ -1,5 +1,5 @@
 <div layout="column" layout-fill>
-  <md-toolbar>
+  <md-toolbar class="md-whiteframe-1dp">
     <div class="md-toolbar-tools">
       <h2 ui-sref="home">Admin: {{$ctrl.com.data.room.name}}</h2>
       <span flex></span>
@@ -9,10 +9,11 @@
     <div ng-if="$ctrl.importError">{{$ctrl.importError}}</div>
     <div>
       switch lobby,
+      <md-button ng-click="$ctrl.com.setState('lobby')">lobby</md-button>
       <div ng-repeat="question in $ctrl.com.data.room.questions track by $index">
         {{$index}}
       </div>
-      results
+      <md-button ng-click="$ctrl.com.setState('results')">results</md-button>
     </div>
     previous, next
 

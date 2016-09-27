@@ -1,3 +1,11 @@
-<div class="component">
-  <h2>{{$ctrl.text}}</h2>
-</div>
+<md-content layout-fill>
+    <md-list class="md-dense" layout="row" layout-wrap>
+        <!-- $ctrl.com.data.room.voters -->
+        <md-list-item ng-repeat="user in $ctrl.names track by $index" flex="100" flex-gt-xs="50" flex-gt-sm="33" flex-gt-md="25" flex-gt-lg="20">
+            <img ng-src="images/avatars/{{$ctrl.avatars.icons[$ctrl.test || $index % $ctrl.avatars.icons.length]}}" class="md-avatar" alt="{{user}}" />
+            <div class="md-list-item-text">
+            {{user}}
+              </div>
+              <div class="md-secondary">{{100/($index+1)|number:0}}</div></md-list-item>
+    </md-list>
+</md-content>
