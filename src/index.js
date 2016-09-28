@@ -31,10 +31,12 @@ angular
   })
   .service('com', require('./app/services/com'))
   .service('avatars', require('./app/services/avatars'))
+  .filter('notag', require('./app/filters/notag'))
   .component('home', require('./app/components/home'))
   .component('lobby', require('./app/components/room/lobby'))
   .component('results', require('./app/components/room/results'))
   .component('question', require('./app/components/room/question'))
   .component('room', require('./app/components/room/room'))
   .component('connection', require('./app/components/shared/connection'))
+  .component('roomToolbar', require('./app/components/shared/roomToolbar'))
   .component('admin', require('./app/components/admin/admin'));

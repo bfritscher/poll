@@ -2,31 +2,14 @@ function questionController(com) {
   "ngInject";
   var $ctrl = this;
   $ctrl.com = com;
-/*
-  $http.get('quiz/jointures.yml').then(function (res) {
-    $ctrl.data = YAML.parse(res.data);
-    $ctrl.setQuestion(0);
-  });
 
-  this.setAnswers = function () {
-    this.votes = [
-      2,
-      2,
-      1,
-      4,
-      1
-    ];
-  };
-*/
-
-  this.votersTotal = 10;
   this.answer = [];
 
   this.toggleAnswer = function (answerIndex) {
     if (this.isResult()) {
       return;
     }
-    if (this.questionIsMultiple()) {
+    if (this.com.data.question.isMultiple) {
       var i = this.answer.indexOf(answerIndex);
       if (i > -1) {
         this.answer.splice(i, 1);
@@ -36,20 +19,11 @@ function questionController(com) {
     } else {
       this.answer = [answerIndex];
     }
-    // Todo send?
+    com.sendAnswer(this.answer);
   };
 
   this.isResult = function () {
-    return this.votes && this.votes.length > 0;
-  };
-
-  this.setQuestion = function (i) {
-    if (!i) {
-      i = this.data.questions.indexOf(this.question) + 1 % this.data.questions.length;
-    }
-    this.question = this.data.questions[i];
-    this.answer = [];
-    this.votes = [];
+    return com.data.question.votesByAnswers;
   };
 
   this.exists = function (key, list) {

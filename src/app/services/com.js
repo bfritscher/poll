@@ -11,19 +11,19 @@ function Com($rootScope, $log, $state, $q) {
   var deferred = $q.defer();
   self.ready = deferred.promise;
 
-  var primus = Primus.connect('http://localhost:3033');
+  var primus = Primus.connect('http://localhost:3033', {strategy: 'online, timeout, disconnect'});
   primus.on('open', function () {
     primus.on('data', function (data) {
       data = data || {};
       $log.debug(data);
 
       if (data.a === 'user') {
-        self.data.user = data.user;
+        self.data.user = data.v;
         deferred.resolve(primus);
       }
 
       if (data.a === 'rooms') {
-        self.data.rooms = data.rooms;
+        self.data.rooms = data.v;
         if (self.waitingOnRoom && self.data.rooms.indexOf(self.waitingOnRoom) > -1) {
           $state.go('admin', {name: self.waitingOnRoom});
           delete self.waitingOnRoom;
@@ -38,7 +38,15 @@ function Com($rootScope, $log, $state, $q) {
       }
 
       if (data.a === 'room') {
-        self.data.room = data.room;
+        self.data.room = data.v;
+      }
+
+      if (data.a === 'questions') {
+        self.data.room.questions = data.v;
+      }
+
+      if (data.a === 'questionsCount') {
+        self.data.room.questionsCount = data.v;
       }
 
       if (data.a === 'close') {
@@ -47,15 +55,20 @@ function Com($rootScope, $log, $state, $q) {
 
       if (data.a === 'state') {
         self.data.room.state = data.v;
-        // if question set q ? index? or get question?
+        self.data.question = data.question;
       }
 
       if (data.a === 'voters') {
-        self.data.room.voters = data.voters;
+        self.data.room.voters = data.v;
       }
 
-      // question??
+      if (data.a === 'votesCount') {
+        self.data.question.votesCount = data.v;
+      }
 
+      if (data.a === 'vote') {
+        self.data.room.questions[data.q].votes[data.u] = data.v;
+      }
       // vote
       $rootScope.$digest();
     });
@@ -65,7 +78,7 @@ function Com($rootScope, $log, $state, $q) {
     });
   });
 
-  primus.on('reconnecting', function () {
+  primus.on('reconnect', function () {
     $rootScope.$apply(function () {
       self.data.online = false;
       deferred = $q.defer();
@@ -89,6 +102,15 @@ Com.prototype.leaveRoom = function () {
   });
 };
 
+Com.prototype.sendAnswer = function (answer) {
+  var self = this;
+  this.ready.then(function (primus) {
+    if (self.data.room && self.data.room.name) {
+      primus.write({a: 'vote', r: self.data.room.name, v: answer});
+    }
+  });
+};
+
 Com.prototype.createRoom = function (roomName) {
   var self = this;
   this.ready.then(function (primus) {
@@ -106,13 +128,52 @@ Com.prototype.addQuestion = function (question) {
   });
 };
 
-Com.prototype.setState = function (state, option) {
+Com.prototype.setState = function (state) {
   var self = this;
   this.ready.then(function (primus) {
     if (self.data.room && self.data.room.name) {
-      primus.write({a: 'set_state', r: self.data.room.name, v: state, q: option});
+      if (!state) {
+        state = self.data.room.state;
+      }
+      primus.write({a: 'set_state', r: self.data.room.name, v: state});
     }
   });
+};
+
+Com.prototype.nextState = function () {
+  if (this.data.room.state === 'lobby') {
+    if (this.data.room.questions.length > 0) {
+      this.setState('q0');
+    } else {
+      this.setState('results');
+    }
+  }
+  if (this.data.room.state.indexOf('q') === 0) {
+    var currentIndex = parseInt(this.data.room.state.slice(1), 10);
+    if (currentIndex < this.data.room.questions.length - 1) {
+      this.setState('q' + (currentIndex + 1));
+    } else {
+      this.setState('results');
+    }
+  }
+};
+
+Com.prototype.previousState = function () {
+  if (this.data.room.state === 'results') {
+    if (this.data.room.questions.length > 0) {
+      this.setState('q' + (this.data.room.questions.length - 1));
+    } else {
+      this.setState('lobby');
+    }
+  }
+  if (this.data.room.state.indexOf('q') === 0) {
+    var currentIndex = parseInt(this.data.room.state.slice(1), 10);
+    if (currentIndex > 0) {
+      this.setState('q' + (currentIndex - 1));
+    } else {
+      this.setState('lobby');
+    }
+  }
 };
 
 module.exports = Com;

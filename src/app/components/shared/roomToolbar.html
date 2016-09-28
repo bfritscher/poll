@@ -1,0 +1,15 @@
+<md-toolbar class="md-whiteframe-1dp">
+    <div class="md-toolbar-tools">
+        <h2 ui-sref="home">Poll</h2>
+        <div flex></div>
+        <div class="room-toolbar-state">
+            <span class="room-toolbar-name">{{$ctrl.com.data.room.name}}</span>
+            <span ng-if="$ctrl.com.data.room.state == 'lobby'">Lobby</span>
+            <span ng-if="$ctrl.com.data.room.state == 'results'">Results</span>
+            <span ng-if="$ctrl.com.data.room.state.indexOf('q') == 0">{{$ctrl.com.data.room.state.slice(1) * 1 + 1}} / {{$ctrl.com.data.room.questionsCount}}</span>
+            <span ng-if="$ctrl.com.data.question.isMultiple">♣</span>
+        </div>
+        <div flex></div>
+        <div class="room-toolbar-votes"><span ng-if="$ctrl.com.data.room.state.indexOf('q') == 0">{{$ctrl.com.data.question.votesCount || 0}}</span><br/>{{$ctrl.com.data.room.voters.length}}</div>
+    </div>
+</md-toolbar>

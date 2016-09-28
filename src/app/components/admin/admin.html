@@ -1,32 +1,89 @@
 <div layout="column" layout-fill>
-  <md-toolbar class="md-whiteframe-1dp">
-    <div class="md-toolbar-tools">
-      <h2 ui-sref="home">Admin: {{$ctrl.com.data.room.name}}</h2>
-      <span flex></span>
-    </div>
-  </md-toolbar>
-  <md-content>
-    <div ng-if="$ctrl.importError">{{$ctrl.importError}}</div>
-    <div>
-      switch lobby,
-      <md-button ng-click="$ctrl.com.setState('lobby')">lobby</md-button>
-      <div ng-repeat="question in $ctrl.com.data.room.questions track by $index">
-        {{$index}}
-      </div>
-      <md-button ng-click="$ctrl.com.setState('results')">results</md-button>
-    </div>
-    previous, next
+  <room-toolbar></room-toolbar>
+  <md-content layout="column" flex>
+    <md-tabs flex md-selected="$ctrl.selectedTabIndex" class="admin-tabs">
+      <md-tab>
+        <md-tab-label>
+          Setup
+        </md-tab-label>
+        <md-tab-body>
+          <div layout-padding>
+            <div class="md-whiteframe-1dp white no-padding">
+              <md-subheader class="md-primary md-no-sticky">Import questions</md-subheader>
+              <div ng-if="$ctrl.importError">{{$ctrl.importError}}</div>
 
+              <div class="dropfiles" ngf-drop="$ctrl.parseFiles($files)" ngf-select="$ctrl.parseFiles($files)" ng-model="files" class="drop-box"
+                ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false">Drop yaml question files or click to upload</div>
+            </div>
+<br/>
+            <div class="md-whiteframe-1dp white no-padding">
+            <md-subheader class="md-primary md-no-sticky">ColorVote</md-subheader>
+            <div layout-padding>
+              <md-input-container class="md-block">
+                <label>Question</label>
+                <textarea ng-model="$ctrl.question.content" rows="2"></textarea>
+              </md-input-container>
+              <md-slider-container>
+                <span>Answers</span>
+                <md-slider class="md-primary" flex min="2" max="8" step="1" md-discrete ng-model="$ctrl.question.answersCount" aria-label="nb answers" id="nb-answers-slider">
+                </md-slider>
+                <md-input-container>
+                  <input flex type="number" ng-model="$ctrl.question.answersCount" aria-label="nb answers" aria-controls="nb-answers-slider">
+                </md-input-container>
+              </md-slider-container>
+            </div>
+            <div layout="row" layout-align="end stretch">
+              <md-button class="md-primary" ng-click="$ctrl.addQuestion()">Add</md-button>
+            </div>
+            </div>
+<br/>
+              <md-list class="md-whiteframe-1dp white no-padding">
+                <md-subheader class="md-primary md-no-sticky">Current questions</md-subheader>
+                <md-divider ng-repeat-start="question in $ctrl.com.data.room.questions track by $index"></md-divider>
+                <md-list-item ng-repeat-end>
+                  <strong class="question-number">{{$index + 1}}.</strong>
+                  <span flex >{{question.content | notag}}</span>
+                  <span>({{question.answers.length}})</span>
+                </md-list-item>
+                <md-divider></md-divider>
+              </md-list>
+          </div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab>
+        <md-tab-label>
+          Poll
+        </md-tab-label>
+        <md-tab-body>
+          <div layout-padding>
+            <div class="md-whiteframe-1dp white">
+              <div layout="row">
 
-      <div class="dropfiles" ngf-drop="$ctrl.parseFiles($files)" ngf-select="$ctrl.parseFiles($files)" ng-model="files" class="drop-box"
-        ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false">Drop yaml question files or click to upload</div>
+                <md-input-container flex>
+                  <label>State</label>
+                  <md-select ng-model="$ctrl.com.data.room.state" ng-change="$ctrl.com.setState()">
+                    <md-option value="lobby"><strong>Lobby</strong></md-option>
+                    <md-option ng-repeat="question in $ctrl.com.data.room.questions track by $index" ng-value="'q' + $index">
+                      <strong>{{$index + 1}}.</strong> {{question.content | notag}}
+                    </md-option>
+                    <md-option value="results"><strong>Results</strong></md-option>
+                  </md-select>
+                </md-input-container>
+              </div>
+              <div layout="row">
+                <md-button class="md-primary" ng-click="$ctrl.com.previousState()" ng-disabled="$ctrl.com.data.room.state=='lobby'">Previous</md-button>
+                <span flex></span>
+                <md-button class="md-warn" ng-click="$ctrl.com.resetQuestion()" ng-disabled="$ctrl.com.data.room.state.indexOf('q') != 0">Reset</md-button>
+                <span flex></span>
+                <md-button class="md-primary" ng-click="$ctrl.com.nextState()" ng-disabled="$ctrl.com.data.room.state=='results'">Next</md-button>
+              </div>
+            </div>
+          </div>
+          ANswer counts details
+          {{ $ctrl.com.data.room.questions}}
+        </md-tab-body>
+      </md-tab>
 
-      <pre>
-        reset question on question
-        view answers count
-
-        NEXT: create question
-      </pre>
-      {{$ctrl.com.data.room.state}}
+    </md-tabs>
   </md-content>
 </div>

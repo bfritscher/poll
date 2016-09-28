@@ -11,7 +11,7 @@ module.exports = {
         .textContent('')
         .placeholder('Room name')
         .ariaLabel('Room name')
-        .initialValue('quiz')
+        .initialValue('Quiz')
         .targetEvent(ev)
         .ok('Create')
         .cancel('Cancel');
