@@ -4,7 +4,7 @@
     <md-tabs flex md-selected="$ctrl.selectedTabIndex" class="admin-tabs">
       <md-tab>
         <md-tab-label>
-          Setup
+          Questions
         </md-tab-label>
         <md-tab-body>
           <div layout-padding>
@@ -15,38 +15,39 @@
               <div class="dropfiles" ngf-drop="$ctrl.parseFiles($files)" ngf-select="$ctrl.parseFiles($files)" ng-model="files" class="drop-box"
                 ngf-drag-over-class="'dragover'" ngf-multiple="false" ngf-allow-dir="false">Drop yaml question files or click to upload</div>
             </div>
-<br/>
+            <br/>
             <div class="md-whiteframe-1dp white no-padding">
-            <md-subheader class="md-primary md-no-sticky">ColorVote</md-subheader>
-            <div layout-padding>
-              <md-input-container class="md-block">
-                <label>Question</label>
-                <textarea ng-model="$ctrl.question.content" rows="2"></textarea>
-              </md-input-container>
-              <md-slider-container>
-                <span>Answers</span>
-                <md-slider class="md-primary" flex min="2" max="8" step="1" md-discrete ng-model="$ctrl.question.answersCount" aria-label="nb answers" id="nb-answers-slider">
-                </md-slider>
-                <md-input-container>
-                  <input flex type="number" ng-model="$ctrl.question.answersCount" aria-label="nb answers" aria-controls="nb-answers-slider">
+              <md-subheader class="md-primary md-no-sticky">ColorVote</md-subheader>
+              <div layout-padding>
+                <md-input-container class="md-block">
+                  <label>Question</label>
+                  <textarea ng-model="$ctrl.question.content" rows="2"></textarea>
                 </md-input-container>
-              </md-slider-container>
+                <md-slider-container>
+                  <span>Answers</span>
+                  <md-slider class="md-primary" flex min="2" max="8" step="1" md-discrete ng-model="$ctrl.question.answersCount" aria-label="nb answers"
+                    id="nb-answers-slider">
+                  </md-slider>
+                  <md-input-container>
+                    <input flex type="number" ng-model="$ctrl.question.answersCount" aria-label="nb answers" aria-controls="nb-answers-slider">
+                  </md-input-container>
+                </md-slider-container>
+              </div>
+              <div layout="row" layout-align="end stretch">
+                <md-button class="md-primary" ng-click="$ctrl.addQuestion()">Add</md-button>
+              </div>
             </div>
-            <div layout="row" layout-align="end stretch">
-              <md-button class="md-primary" ng-click="$ctrl.addQuestion()">Add</md-button>
-            </div>
-            </div>
-<br/>
-              <md-list class="md-whiteframe-1dp white no-padding">
-                <md-subheader class="md-primary md-no-sticky">Current questions</md-subheader>
-                <md-divider ng-repeat-start="question in $ctrl.com.data.room.questions track by $index"></md-divider>
-                <md-list-item ng-repeat-end>
-                  <strong class="question-number">{{$index + 1}}.</strong>
-                  <span flex >{{question.content | notag}}</span>
-                  <span>({{question.answers.length}})</span>
-                </md-list-item>
-                <md-divider></md-divider>
-              </md-list>
+            <br/>
+            <md-list class="md-whiteframe-1dp white no-padding">
+              <md-subheader class="md-primary md-no-sticky">Current questions</md-subheader>
+              <md-divider ng-repeat-start="question in $ctrl.com.data.room.questions track by $index"></md-divider>
+              <md-list-item ng-repeat-end>
+                <strong class="question-number">{{$index + 1}}.</strong>
+                <span flex>{{question.content | notag}}</span>
+                <span>({{question.answers.length}})</span>
+              </md-list-item>
+              <md-divider></md-divider>
+            </md-list>
           </div>
         </md-tab-body>
       </md-tab>
@@ -61,26 +62,73 @@
 
                 <md-input-container flex>
                   <label>State</label>
-                  <md-select ng-model="$ctrl.com.data.room.state" ng-change="$ctrl.com.setState()">
-                    <md-option value="lobby"><strong>Lobby</strong></md-option>
+                  <md-select ng-model="$ctrl.com.data.room.state" ng-change="$ctrl.com.setState($ctrl.com.data.room.state)">
+                    <md-option ng-value="'lobby'"><strong>Lobby</strong></md-option>
                     <md-option ng-repeat="question in $ctrl.com.data.room.questions track by $index" ng-value="'q' + $index">
                       <strong>{{$index + 1}}.</strong> {{question.content | notag}}
                     </md-option>
-                    <md-option value="results"><strong>Results</strong></md-option>
+                    <md-option ng-value="'results'"><strong>Results</strong></md-option>
                   </md-select>
                 </md-input-container>
               </div>
               <div layout="row">
                 <md-button class="md-primary" ng-click="$ctrl.com.previousState()" ng-disabled="$ctrl.com.data.room.state=='lobby'">Previous</md-button>
                 <span flex></span>
-                <md-button class="md-warn" ng-click="$ctrl.com.resetQuestion()" ng-disabled="$ctrl.com.data.room.state.indexOf('q') != 0">Reset</md-button>
+                <md-button class="md-warn" ng-if="!$ctrl.com.data.question.votesByAnswers" ng-click="$ctrl.com.setState($ctrl.com.data.room.state)"
+                  ng-disabled="$ctrl.com.data.room.state.indexOf('q') != 0">Answers</md-button>
+                <md-button class="md-warn" ng-if="$ctrl.com.data.question.votesByAnswers" ng-click="$ctrl.com.setState({reset: true})" ng-disabled="$ctrl.com.data.room.state.indexOf('q') != 0">Reset</md-button>
                 <span flex></span>
-                <md-button class="md-primary" ng-click="$ctrl.com.nextState()" ng-disabled="$ctrl.com.data.room.state=='results'">Next</md-button>
+                <md-button class="md-primary" ng-click="$ctrl.com.nextState()">Next</md-button>
+              </div>
+            </div>
+
+            <div ng-if="$ctrl.com.data.room.state.indexOf('q') == 0">
+
+              <div>
+                <h3>No vote</h3>
+                <md-list class="md-dense" layout="row" layout-wrap>
+                  <md-list-item ng-repeat="user in $ctrl.votersWithoutAnswer() track by $index" flex="100" flex-gt-xs="50" flex-gt-sm="33"
+                    flex-gt-md="25" flex-gt-lg="20">
+                    <img ng-src="images/avatars/{{ user.avatar || $ctrl.avatars.icons[$index % $ctrl.avatars.icons.length]}}" class="md-avatar"
+                      alt="{{user.firstname}} {{user.lastname}}" />
+                    <div class="md-list-item-text">{{user.firstname}} {{user.lastname}}</div>
+                  </md-list-item>
+                </md-list>
+              </div>
+
+              <div ng-repeat="answer in $ctrl.com.data.room.questions[$ctrl.com.questionIndex()].answers track by $index">
+                <h3>{{$index + 1}}. <span ng-if="answer.correct">(correct)</span></h3>
+                <md-list class="md-dense" layout="row" layout-wrap>
+                  <md-list-item ng-repeat="(userKey, vote) in $ctrl.com.data.room.questions[$ctrl.com.questionIndex()].votes" ng-if="vote.indexOf($parent.$index) > -1"
+                    flex="100" flex-gt-xs="50" flex-gt-sm="33" flex-gt-md="25" flex-gt-lg="20" ng-init="user = $ctrl.com.data.room.voters[userKey]">
+
+                    <img ng-src="images/avatars/{{ user.avatar || $ctrl.avatars.icons[$index % $ctrl.avatars.icons.length]}}" class="md-avatar"
+                      alt="{{user.firstname}} {{user.lastname}}" />
+                    <div class="md-list-item-text">{{user.firstname}} {{user.lastname}}</div>
+                  </md-list-item>
+                </md-list>
+              </div>
+
+
+            </div>
+
+          </div>
+        </md-tab-body>
+      </md-tab>
+      <md-tab>
+        <md-tab-label>
+          Admin
+        </md-tab-label>
+        <md-tab-body>
+          <div layout-padding>
+            <div class="md-whiteframe-1dp white no-padding">
+              <md-subheader class="md-primary md-no-sticky">Cleanup</md-subheader>
+              <div layout-padding>
+
+                <md-button class="md-warn" ng-click="$ctrl.com.closeRoom()">Close Room</md-button>
               </div>
             </div>
           </div>
-          ANswer counts details
-          {{ $ctrl.com.data.room.questions}}
         </md-tab-body>
       </md-tab>
 

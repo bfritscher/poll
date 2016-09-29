@@ -1,8 +1,9 @@
 var YAML = require('yamljs');
 
-function adminController(com, $stateParams, $scope, $window, $state) {
+function adminController(com, $stateParams, $scope, $window, $state, avatars) {
   "ngInject";
   var self = this;
+  self.avatars = avatars;
   self.com = com;
   self.question = {
     content: '',
@@ -58,6 +59,19 @@ function adminController(com, $stateParams, $scope, $window, $state) {
       question.answers.push({content: '<div style="background-color: ' + colors[i] + ';margin: -8px -8px -8px -38px;text-align: center;line-height: 20px;padding: 20px;color: white;font-size: 30px;">' + i + '</div>'});
     }
     com.addQuestion(question);
+  };
+
+  // display voters
+  this.votersWithoutAnswer = function () {
+    var questionIndex = this.com.questionIndex();
+    return Object.keys(this.com.data.room.voters).filter(function (userKey) {
+      if (self.com.data.room.questions && self.com.data.room.questions[questionIndex] && self.com.data.room.questions[questionIndex].votes) {
+        return !self.com.data.room.questions[questionIndex].votes.hasOwnProperty(userKey);
+      }
+      return true;
+    }).map(function (userKey) {
+      return self.com.data.room.voters[userKey];
+    }).sort(this.com.userSorter);
   };
 
   $scope.$on('$destroy', function () {

@@ -1,17 +1,17 @@
-<md-content>
+<md-content layout-fill>
   <div class="question-content" ng-bind-html="$ctrl.com.data.question.content"></div>
 
-  <div ng-repeat="answer in $ctrl.com.data.question.answers" class="answer md-whiteframe-1dp"  ng-class="{'md-whiteframe-14dp': $ctrl.exists($index, $ctrl.answer)}" layout="column">
-    <div ng-disabled="$ctrl.isResult()" class="answer-content" layout="row" ng-click="$ctrl.toggleAnswer($index)" md-ink-ripple="#2196f3">
+  <div ng-repeat="answer in $ctrl.com.data.question.answers track by $index" class="answer md-whiteframe-1dp"  ng-class="{'md-whiteframe-6dp': $ctrl.exists($index)}" layout="column">
+    <div ng-disabled="$ctrl.com.data.question.stop" class="answer-content" layout="row" ng-click="$ctrl.toggleAnswer($index)" md-ink-ripple="#2196f3">
       <div>
-        <md-checkbox ng-disabled="$ctrl.isResult()" ng-checked="$ctrl.exists($index, $ctrl.answer)" aria-label="{{$answer.content}}"
+        <md-checkbox ng-disabled="$ctrl.com.data.question.stop" ng-checked="$ctrl.exists($index)" aria-label="{{$answer.content}}"
           tabindex="{{$index + 1}}"></md-checkbox>
       </div>
       <div flex ng-bind-html="answer.content"></div>
     </div>
-    <div class="answer-result" layout="row" ng-if="$ctrl.isResult()">
-      <div class="answer-result-bar" ng-class="{'answer-correct': answer.correct, 'answer-wrong': !answer.correct}" ng-style="{'width': $ctrl.votesByAnswers[$index]/$ctrl.com.data.question.votesCount*100 + '%'}"></div>
-      <div class="answer-result-text">{{$ctrl.votesByAnswers[$index]}}</div>
+    <div class="answer-result" layout="row" ng-if="$ctrl.com.data.question.votesByAnswers">
+      <div class="answer-result-bar" ng-class="{'answer-correct': answer.correct, 'answer-wrong': !answer.correct}" ng-style="{'width': $ctrl.com.data.question.votesByAnswers[$index]/$ctrl.com.data.question.votesCount*100 + '%'}"></div>
+      <div class="answer-result-text">{{$ctrl.com.data.question.votesByAnswers[$index]}}</div>
     </div>
   </div>
 </md-content>

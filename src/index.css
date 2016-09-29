@@ -18,26 +18,23 @@ body, question, question md-content {
 }
 
 @media (min-width: 768px) {
-.home {
-  max-width: 768px;
-  width: 100%;
-  margin: 0 auto;
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
-}
-}
-
-question {
-  padding: 16px;
+  .home {
+    max-width: 768px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  }
 }
 
 .question-content {
   font-weight: bold;
   font-size: 16pt;
-
+  overflow: hidden;
+  margin: 16px;
 }
 
 .answer {
-  margin: 16px 0;
+  margin: 16px 8px;
   background-color: white;
 }
 
@@ -45,13 +42,14 @@ question {
   padding: 8px;
   position: relative;
   cursor: pointer;
+  overflow: hidden;
 }
 .answer-content:focus {
   outline:0;
 }
 
 .answer-result-bar {
-  height: 20px;
+  min-width: 20px;
 }
 .answer-result-text {
   font-weight: bold;
@@ -99,6 +97,10 @@ question {
 }
 .avatar-select.selected svg {
   filter: grayscale(100%);
+}
+
+md-list-item.current-user {
+  background-color: #cfd8dc;
 }
 
 /* shared */
