@@ -1,11 +1,11 @@
 {
-  "name": "Web Application Manifest Sample",
+  "name": "Poll",
   "icons": [
     {
-      "src": "launcher-icon-4x.png",
-      "sizes": "192x192",
+      "src": "images/icon-144x144.png",
+      "sizes": "144x144",
       "type": "image/png",
-      "density": 4.0
+      "density": 3.0
     }
   ],
   "start_url": "index.html",

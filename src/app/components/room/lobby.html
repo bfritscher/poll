@@ -4,8 +4,8 @@
         <h2>Select Avatar</h2>
         </div>
     </md-toolbar>
-    <md-content layout="row" layout-wrap layout-padding flex>
-        <md-button aria-label="{{img}}" ng-class="{selected: $ctrl.com.data.user.avatar == $index}" flex="none" class="md-icon-button avatar-select" ng-repeat="img in $ctrl.avatars.icons" ng-click="$ctrl.selectAvatar($index)">
+    <md-content layout="row" layout-wrap layout-padding>
+        <md-button aria-label="{{img}}" ng-class="{selected: $ctrl.com.data.room.voters[$ctrl.com.data.user.email].avatar == $ctrl.avatars.icons[$index]}" flex="none" class="md-icon-button avatar-select" ng-repeat="img in $ctrl.avatars.icons" ng-click="$ctrl.selectAvatar($index)">
             <md-icon md-svg-icon="images/avatars/{{img}}"></md-icon>
         </md-button>
     </md-content>

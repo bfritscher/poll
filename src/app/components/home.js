@@ -5,19 +5,30 @@ module.exports = {
     this.com = com;
 
     this.addRoom = function (ev) {
-      // Appending dialog to document.body to cover sidenav in docs app
-      var confirm = $mdDialog.prompt()
+      var name = $mdDialog.prompt()
         .title('Name of the new room?')
         .textContent('')
         .placeholder('Room name')
         .ariaLabel('Room name')
         .initialValue('Quiz')
         .targetEvent(ev)
+        .ok('Next')
+        .cancel('Cancel');
+
+      $mdDialog.show(name).then(function (resultName) {
+        var course = $mdDialog.prompt()
+        .title('Name of the course?')
+        .textContent('')
+        .placeholder('Course name')
+        .ariaLabel('Course name')
+        .initialValue('SQL 1IG')
+        .targetEvent(ev)
         .ok('Create')
         .cancel('Cancel');
 
-      $mdDialog.show(confirm).then(function (result) {
-        com.createRoom(result);
+        $mdDialog.show(course).then(function (resultCourse) {
+          com.createRoom(resultName, resultCourse);
+        });
       });
     };
   }

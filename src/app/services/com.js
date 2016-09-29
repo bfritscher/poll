@@ -160,11 +160,11 @@ Com.prototype.setAvatar = function (avatar) {
   });
 };
 
-Com.prototype.createRoom = function (roomName) {
+Com.prototype.createRoom = function (roomName, courseName) {
   var self = this;
   this.ready.then(function (primus) {
     self.waitingOnRoom = roomName;
-    primus.write({a: 'create_room', r: roomName});
+    primus.write({a: 'create_room', r: roomName, c: courseName});
   });
 };
 
