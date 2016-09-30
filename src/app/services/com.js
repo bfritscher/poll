@@ -84,6 +84,10 @@ function Com($rootScope, $log, $state, $q, $timeout) {
 
       if (data.a === 'voter_join') {
         self.data.room.voters[data.v.email] = data.v;
+        if (!self.data.room.hasOwnProperty('participants')) {
+          self.data.room.participants = {};
+        }
+        self.data.room.participants[data.v.email] = data.v;
       }
 
       if (data.a === 'voter_left') {
