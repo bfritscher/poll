@@ -10,6 +10,10 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider) {
       url: '/',
       component: 'home'
     })
+    .state('course', {
+      url: '/stats/course/:name',
+      component: 'course'
+    })
     .state('admin', {
       url: '/:name/admin',
       component: 'admin'

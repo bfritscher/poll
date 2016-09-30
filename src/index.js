@@ -40,4 +40,5 @@ angular
   .component('room', require('./app/components/room/room'))
   .component('connection', require('./app/components/shared/connection'))
   .component('roomToolbar', require('./app/components/shared/roomToolbar'))
-  .component('admin', require('./app/components/admin/admin'));
+  .component('admin', require('./app/components/admin/admin'))
+  .component('course', require('./app/components/stats/course'));

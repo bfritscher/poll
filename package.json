@@ -71,6 +71,9 @@
       "browser": true,
       "jasmine": true
     },
+    "rules": {
+      "linebreak-style": false
+    },
     "extends": [
       "xo-space"
     ]
