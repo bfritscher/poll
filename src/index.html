@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
 
-  <body ng-app="app">
+  <body ng-app="app" ng-controller="ShortcutController as $ctrl" ng-keydown="$ctrl.handleKeyDown($event)">
     <ui-view></ui-view>
     <connection></connection>
   </body>

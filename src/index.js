@@ -32,6 +32,7 @@ angular
   .service('com', require('./app/services/com'))
   .service('avatars', require('./app/services/avatars'))
   .filter('notag', require('./app/filters/notag'))
+  .controller('ShortcutController', require('./app/controllers/shortcut'))
   .component('home', require('./app/components/home'))
   .component('lobby', require('./app/components/room/lobby'))
   .component('results', require('./app/components/room/results'))

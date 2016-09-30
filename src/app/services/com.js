@@ -12,7 +12,7 @@ function Com($rootScope, $log, $state, $q, $timeout) {
   var deferred = $q.defer();
   self.ready = deferred.promise;
 
-  var primus = Primus.connect('http://localhost:3033', {strategy: 'online, timeout, disconnect'});
+  var primus = Primus.connect('https://marmix.ig.he-arc.ch', {strategy: 'online, timeout, disconnect'});
   primus.on('open', function () {
     primus.on('data', function (data) {
       data = data || {};
@@ -187,7 +187,7 @@ Com.prototype.addQuestion = function (question) {
 Com.prototype.setState = function (state) {
   var self = this;
   this.ready.then(function (primus) {
-    if (self.data.room && self.data.room.name) {
+    if (self.data.room && self.data.room.name && self.data.user.isAdmin) {
       if (state && state.hasOwnProperty('reset')) {
         primus.write({a: 'set_state', reset: true, r: self.data.room.name, v: self.data.room.state});
       } else {

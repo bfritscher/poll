@@ -1,9 +1,16 @@
-function questionController(com) {
+function questionController(com, $scope) {
   "ngInject";
   var $ctrl = this;
   $ctrl.com = com;
 
+  $scope.$on('select-answer', function (event, index) {
+    $ctrl.toggleAnswer(index);
+  });
+
   this.toggleAnswer = function (answerIndex) {
+    if (answerIndex < 0 || answerIndex >= this.com.data.question.answers.length) {
+      return;
+    }
     if (this.com.data.question.votesByAnswers) {
       return;
     }
