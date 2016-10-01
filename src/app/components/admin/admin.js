@@ -10,7 +10,7 @@ function adminController(com, $stateParams, $scope, $window, $state, avatars) {
     answersCount: 4
   };
 
-  com.ready.then(function () {
+  com.readyUser.then(function () {
     if (!com.data.user.isAdmin) {
       $state.go('home');
     }

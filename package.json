@@ -72,7 +72,7 @@
       "jasmine": true
     },
     "rules": {
-      "linebreak-style": false
+      "linebreak-style": 0
     },
     "extends": [
       "xo-space"
