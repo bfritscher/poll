@@ -1,7 +1,7 @@
 function courseController($stateParams, $scope, $log) {
   "ngInject";
   var $ctrl = this;
-  var API = 'http://marmix.ig.he-arc.ch/poll/api';
+  var API = 'https://marmix.ig.he-arc.ch/poll/api';
 
   if ($stateParams.name) {
     d3.json(API + '/course/' + $stateParams.name, function (error, json) {
