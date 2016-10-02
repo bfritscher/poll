@@ -17,7 +17,7 @@ body {
   background-color: #fff;
 }
 
-question, question md-content {
+question, md-content, .background {
   background-color: #f2f2f2;
 }
 
@@ -25,11 +25,20 @@ question, question md-content {
   vertical-align: initial;
 }
 
+#room-list {
+  margin-top: 20px;
+  background-color: #fff;
+}
+
+.home {
+  background-color: #fff;
+}
+
 @media (min-width: 768px) {
   .home {
     max-width: 768px;
     width: 100%;
-    margin: 0 auto;
+    margin: 20px auto;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
   }
 }
