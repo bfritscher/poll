@@ -3,10 +3,14 @@
   bottom: 32px;
   right: 16px;
 }
-
 code {
-  font-size: 16pt;
   white-space: pre-wrap;
+}
+
+code.block {
+  display: block;
+  background-color: #fff;
+  padding: 8px;
 }
 
 md-checkbox {
@@ -43,9 +47,24 @@ question, md-content, .background {
   }
 }
 
+.question img {
+  width: 100%;
+  max-height: calc(100vh - 104px);
+  object-fit: contain;
+}
+
+.question red {
+  color: #F44336;
+}
+
+.question .credits {
+  font-size: 0.5em;
+  float: right;
+}
+
 .question-content {
   font-weight: bold;
-  font-size: 16pt;
+  font-size: 18pt;
   overflow: hidden;
   margin: 16px;
 }
@@ -60,6 +79,7 @@ question, md-content, .background {
   position: relative;
   cursor: pointer;
   overflow: hidden;
+  font-size: 16pt;
 }
 .answer-content:focus {
   outline:0;

@@ -21,7 +21,7 @@ module.exports = {
         .textContent('')
         .placeholder('Course name')
         .ariaLabel('Course name')
-        .initialValue('SQL 1IG')
+        .initialValue('SQL 1IG 2016')
         .targetEvent(ev)
         .ok('Create')
         .cancel('Cancel');

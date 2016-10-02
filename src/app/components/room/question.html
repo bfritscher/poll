@@ -1,4 +1,4 @@
-<md-content layout-fill>
+<md-content layout-fill class="question">
   <div class="question-content" ng-bind-html="$ctrl.com.data.question.content"></div>
 
   <div ng-repeat="answer in $ctrl.com.data.question.answers track by $index" class="answer md-whiteframe-1dp"  ng-class="{'md-whiteframe-6dp': $ctrl.exists($index)}" layout="column">
