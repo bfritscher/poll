@@ -64,7 +64,9 @@
   },
   "eslintConfig": {
     "globals": {
-      "expect": true
+      "expect": true,
+      "d3": false,
+      "nv": false
     },
     "root": true,
     "env": {

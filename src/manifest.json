@@ -10,5 +10,6 @@
   ],
   "start_url": "https://marmix.ig.he-arc.ch/poll/",
   "display": "standalone",
-  "orientation": "portrait"
+  "background_color": "#fff",
+  "orientation": "any"
 }

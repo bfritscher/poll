@@ -11,7 +11,7 @@ function Com($rootScope, $log, $state, $q, $timeout, $window, $mdDialog) {
 
   $window.addEventListener("message", function (event) {
     if (event.data && event.origin) {
-      console.log(event);
+      $log.debug(event);
       self.saveToken(event.data);
       $mdDialog.hide();
       self.tokenDeferred.resolve();
