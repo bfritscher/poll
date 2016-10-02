@@ -8,6 +8,7 @@
             <span ng-if="$ctrl.com.data.room.state == 'results'">Results</span>
             <span ng-if="$ctrl.com.data.room.state.indexOf('q') == 0">{{$ctrl.com.questionIndex() + 1}} / {{$ctrl.com.data.room.questionsCount}}</span>
             <span ng-if="$ctrl.com.data.question.isMultiple"><md-icon>done_all</md-icon></span>
+            <md-button ng-if="$ctrl.state.current.name == 'admin'" class="md-icon-button" ui-sref="room({name: $ctrl.com.data.room.name})" target="_blank"><md-icon>launch</md-icon></md-button>
         </div>
         <div flex></div>
         <div class="room-toolbar-votes"><span ng-if="$ctrl.com.data.room.state.indexOf('q') == 0">{{$ctrl.com.data.question.votesCount || 0}}</span><br/>{{$ctrl.votersCount()}}</div>

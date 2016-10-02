@@ -1,6 +1,7 @@
-function stateController(com) {
+function stateController(com, $state) {
   "ngInject";
   this.com = com;
+  this.state = $state;
 
   this.votersCount = function () {
     if (this.com.data.room && this.com.data.room.voters) {
