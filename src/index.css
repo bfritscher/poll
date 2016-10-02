@@ -13,7 +13,11 @@ md-checkbox {
   margin-bottom: 0;
 }
 
-body, question, question md-content {
+body {
+  background-color: #fff;
+}
+
+question, question md-content {
   background-color: #f2f2f2;
 }
 
