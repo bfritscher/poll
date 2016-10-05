@@ -64,9 +64,11 @@
   },
   "eslintConfig": {
     "globals": {
+      "Office": false,
       "expect": true,
       "d3": false,
-      "nv": false
+      "nv": false,
+      "app": true
     },
     "root": true,
     "env": {

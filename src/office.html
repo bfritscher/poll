@@ -12,13 +12,13 @@
     <link rel="apple-touch-icon" href="images/icon-144x144.png">
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.4/nv.d3.min.css" rel="stylesheet">
+    <script src="//appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
   </head>
 
-  <body ng-app="app" ng-controller="ShortcutController as $ctrl" ng-keydown="$ctrl.handleKeyDown($event)">
+  <body ng-controller="ShortcutController as $ctrl" ng-keydown="$ctrl.handleKeyDown($event)">
     <ui-view></ui-view>
     <connection></connection>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.4/nv.d3.min.js"></script>
+    <script src="index.js"></script>
+    <script src="office.js"></script>
   </body>
 </html>

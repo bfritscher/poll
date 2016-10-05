@@ -13,7 +13,7 @@
   <IconUrl DefaultValue="https://marmix.ig.he-arc.ch/poll/images/icon-144x144.png" />
   <SupportUrl DefaultValue="https://fritscher.ch/" />
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://marmix.ig.he-arc.ch/poll/" />
+    <SourceLocation DefaultValue="https://marmix.ig.he-arc.ch/poll/office.html" />
     <RequestedWidth>400</RequestedWidth>
     <RequestedHeight>400</RequestedHeight>
   </DefaultSettings>
