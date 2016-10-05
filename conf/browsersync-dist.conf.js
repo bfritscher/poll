@@ -7,6 +7,7 @@ module.exports = function () {
         conf.paths.dist
       ]
     },
+    https: true,
     open: false
   };
 };

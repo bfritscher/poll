@@ -29,7 +29,7 @@ function Com($rootScope, $log, $state, $q, $timeout, $window, $mdDialog) {
     } else {
       // show iframe login
       $mdDialog.show({
-        template: '<md-dialog style="width:100%;height:100%;"><iframe sandbox="allow-same-origin allow-scripts allow-popups allow-forms" style="height:100%" id="iframe" src="https://marmix.ig.he-arc.ch/shibjwt/?reply_to=https://marmix.ig.he-arc.ch/poll/api/login"></iframe></md-dialog>',
+        template: '<md-dialog style="width:100%;height:100%" layout="flex"><iframe flex layout-fill sandbox="allow-same-origin allow-scripts allow-popups allow-forms" id="iframe" src="https://marmix.ig.he-arc.ch/shibjwt/?reply_to=https://marmix.ig.he-arc.ch/poll/api/login"></iframe></md-dialog>',
         openFrom: {top: 0, left: 0},
         closeTo: {top: 0, left: 0},
         clickOutsideToClose: false,
@@ -44,6 +44,7 @@ function Com($rootScope, $log, $state, $q, $timeout, $window, $mdDialog) {
   self.ready = deferred.promise;
   var deferredUser = $q.defer();
   self.readyUser = deferredUser.promise;
+
   var primus = Primus.connect('https://marmix.ig.he-arc.ch', {strategy: 'online, timeout, disconnect'});
   primus.on('open', function () {
     // login
