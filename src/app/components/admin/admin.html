@@ -89,7 +89,9 @@
                 <md-list class="md-dense" layout="row" layout-wrap>
                   <md-list-item ng-repeat="user in $ctrl.votersWithoutAnswer() track by $index" flex="100" flex-gt-xs="50" flex-gt-sm="33"
                     flex-gt-md="25" flex-gt-lg="20">
-                    <img ng-src="images/avatars/{{ user.avatar || $ctrl.avatars.icons[$index % $ctrl.avatars.icons.length]}}" class="md-avatar"
+                   <img ng-if="!user.matricule" ng-src="images/avatars/{{ user.avatar || $ctrl.avatars.icons[$index % $ctrl.avatars.icons.length]}}" class="md-avatar"
+                      alt="{{user.firstname}} {{user.lastname}}" />
+                    <img ng-if="user.matricule" ng-src="https://amc.ig.he-arc.ch/sdb/images/students/{{user.matricule}}.jpg" class="md-avatar"
                       alt="{{user.firstname}} {{user.lastname}}" />
                     <div class="md-list-item-text">{{user.firstname}} {{user.lastname}}</div>
                   </md-list-item>
@@ -102,7 +104,9 @@
                   <md-list-item ng-repeat="(userKey, vote) in $ctrl.com.data.room.questions[$ctrl.com.questionIndex()].votes" ng-if="vote.indexOf($parent.$index) > -1"
                     flex="100" flex-gt-xs="50" flex-gt-sm="33" flex-gt-md="25" flex-gt-lg="20" ng-init="user = $ctrl.com.data.room.participants[userKey]">
 
-                    <img ng-src="images/avatars/{{ user.avatar || $ctrl.avatars.icons[$index % $ctrl.avatars.icons.length]}}" class="md-avatar"
+                    <img ng-if="!user.matricule" ng-src="images/avatars/{{ user.avatar || $ctrl.avatars.icons[$index % $ctrl.avatars.icons.length]}}" class="md-avatar"
+                      alt="{{user.firstname}} {{user.lastname}}" />
+                    <img ng-if="user.matricule" ng-src="https://amc.ig.he-arc.ch/sdb/images/students/{{user.matricule}}.jpg" class="md-avatar"
                       alt="{{user.firstname}} {{user.lastname}}" />
                     <div class="md-list-item-text">{{user.firstname}} {{user.lastname}}</div>
                   </md-list-item>
