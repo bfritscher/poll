@@ -147,7 +147,7 @@ function Com($rootScope, $log, $state, $q, $timeout, $window, $mdDialog, $http) 
         }, 100);
       } else {
         var index = self.questionIndex();
-        if (index && (!self.data.answers.hasOwnProperty(index) || data.reset)) {
+        if (angular.isDefined(index) && (!self.data.answers.hasOwnProperty(index) || data.reset)) {
           self.data.answers[index] = [];
         }
       }
