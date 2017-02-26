@@ -9,15 +9,6 @@ function Com($rootScope, $log, $state, $q, $timeout, $window, $mdDialog, $http) 
     answers: {}
   };
 
-  $window.addEventListener("message", function (event) {
-    if (event.data && event.origin) {
-      $log.debug(event);
-      self.saveToken(event.data);
-      $mdDialog.hide();
-      self.tokenDeferred.resolve();
-    }
-  }, false);
-
   self.tokenDeferred = $q.defer();
 
   this.getToken = function () {
@@ -27,15 +18,7 @@ function Com($rootScope, $log, $state, $q, $timeout, $window, $mdDialog, $http) 
       self.token = jwt;
       self.tokenDeferred.resolve();
     } else {
-      // show iframe login
-      $mdDialog.show({
-        template: '<md-dialog style="width:100%;height:100%" layout="flex"><iframe flex layout-fill sandbox="allow-same-origin allow-scripts allow-popups allow-forms" id="iframe" src="https://marmix.ig.he-arc.ch/shibjwt/?reply_to=https://marmix.ig.he-arc.ch/poll/api/login"></iframe></md-dialog>',
-        openFrom: {top: 0, left: 0},
-        closeTo: {top: 0, left: 0},
-        clickOutsideToClose: false,
-        escapeToClose: false,
-        fullscreen: true
-      });
+      $window.location = 'https://marmix.ig.he-arc.ch/shibjwt/?reply_to=https://marmix.ig.he-arc.ch/poll/api/login';
     }
     return self.tokenDeferred.promise;
   };
