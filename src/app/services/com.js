@@ -28,24 +28,6 @@ function Com($rootScope, $log, $state, $q, $timeout, $window, $mdDialog, $http) 
   var deferredUser = $q.defer();
   self.readyUser = deferredUser.promise;
 
-  function getMatricule(user) {
-    var auth = localStorage.getItem('passwd');
-    $http({
-      method: 'GET',
-      url: 'https://amc.ig.he-arc.ch/sdb/api/email/' + user.email,
-      headers: {Authorization: 'Basic ' + auth}
-    }).then(function (res) {
-      self.data.room.participants[user.email].matricule = res.data;
-      self.data.room.voters[user.email].matricule = res.data;
-    });
-  }
-
-  function getPassword() {
-    if (!localStorage.getItem('passwd')) {
-      localStorage.setItem('passwd', btoa('sdb:' + prompt('password')));
-    }
-  }
-
   var primus = Primus.connect('https://marmix.ig.he-arc.ch', {strategy: 'online, timeout, disconnect'});
   primus.on('open', function () {
     // login
@@ -100,10 +82,6 @@ function Com($rootScope, $log, $state, $q, $timeout, $window, $mdDialog, $http) 
 
     if (data.a === 'room') {
       self.data.room = data.v;
-      if (self.data.user.isAdmin) {
-        getPassword();
-        Object.values(self.data.room.voters).forEach(getMatricule);
-      }
     }
 
     if (data.a === 'questions') {
@@ -142,11 +120,6 @@ function Com($rootScope, $log, $state, $q, $timeout, $window, $mdDialog, $http) 
         self.data.room.participants = {};
       }
       self.data.room.participants[data.v.email] = data.v;
-      // TODO: only for arc
-      if (self.data.user.isAdmin) {
-        getPassword();
-        getMatricule(data.v);
-      }
     }
 
     if (data.a === 'voter_left') {
