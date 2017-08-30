@@ -97,7 +97,7 @@
               </div>
 
               <div ng-repeat="answer in $ctrl.com.data.room.questions[$ctrl.com.questionIndex()].answers track by $index">
-                <h3>{{$index + 1}}. <span ng-if="answer.correct">(correct)</span></h3>
+                <h3>{{$index + 1}}. <span ng-if="answer.correct">(correct)</span> {{answer.content}}</h3>
                 <md-list class="md-dense" layout="row" layout-wrap>
                   <md-list-item ng-repeat="(userKey, vote) in $ctrl.com.data.room.questions[$ctrl.com.questionIndex()].votes" ng-if="vote.indexOf($parent.$index) > -1"
                     flex="100" flex-gt-xs="50" flex-gt-sm="33" flex-gt-md="25" flex-gt-lg="20" ng-init="user = $ctrl.com.data.room.participants[userKey]">
