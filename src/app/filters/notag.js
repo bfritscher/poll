@@ -1,6 +1,8 @@
 function notag() {
   return function (text) {
-    return text.replace(/<.*?>/g, '');
+    if (text) {
+      return text.replace(/<.*?>/g, '');
+    }
   };
 }
 

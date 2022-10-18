@@ -1,5 +1,3 @@
-var Primus = require('../../lib/primus');
-
 function Com($rootScope, $log, $state, $q, $timeout, $window, $mdDialog, $http) {
   "ngInject";
   var self = this;
