@@ -6,6 +6,10 @@ import { User, Room, Question } from './models.js';
 import * as db from './db.js';
 import * as SocketEvents from './socket-events.js';
 import { SocketEvents as SocketEventTypes, ErrorType, RoomState } from './socket-events.js';
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file if it exists
+dotenv.config();
 
 import pkg from 'sequelize';
 const { Op } = pkg;

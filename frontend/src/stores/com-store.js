@@ -43,22 +43,15 @@ export const useComStore = defineStore('com', () => {
       console.error('Socket connection error:', err)
     })
 
-    // Socket.io specific events
-    socket.on(SocketEvents.ERROR, (err) => {
-      console.error('Socket error:', err)
-    })
-
-    // Listen for specific events from the server instead of the generic 'data' event
     socket.on(SocketEvents.USER, (data) => {
       user.value = data
     })
 
-    socket.on(SocketEvents.ERROR_MESSAGE, (data) => {
+    socket.on(SocketEvents.ERROR, (data) => {
       console.error('Error from server:', data)
-
       if (
-        data.type === SocketEvents.ERROR_TYPES.NOT_LOGGED_IN ||
-        data.type === SocketEvents.ERROR_TYPES.TOKEN
+        data.type === SocketEvents.ErrorType.NOT_LOGGED_IN ||
+        data.type === SocketEvents.ErrorType.TOKEN
       ) {
         console.log('Authentication error, redirecting to login')
         deleteToken()
@@ -185,7 +178,6 @@ export const useComStore = defineStore('com', () => {
     socket.off(SocketEvents.CONNECT_ERROR)
     socket.off(SocketEvents.ERROR)
     socket.off(SocketEvents.USER)
-    socket.off(SocketEvents.ERROR_MESSAGE)
     socket.off(SocketEvents.USER_AVATAR_UPDATE)
     socket.off(SocketEvents.USER_ANSWERS)
     socket.off(SocketEvents.ROOMS)
@@ -204,7 +196,7 @@ export const useComStore = defineStore('com', () => {
   function redirectToLogin() {
     console.log('Redirecting to login page...')
     // This is the same URL used in the original app for authentication
-    // window.location = 'https://marmix.ig.he-arc.ch/shibjwt/?reply_to=https://marmix.ig.he-arc.ch/poll/api/login'
+    window.location = `https://marmix.ig.he-arc.ch/shibjwt/?reply_to=${window.location.origin}/api/login`
   }
 
   // Token management

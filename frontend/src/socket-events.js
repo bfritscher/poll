@@ -10,7 +10,6 @@ export const CONNECT_ERROR = 'connect_error'
 export const AUTHENTICATE = 'authenticate'
 export const USER = 'user'
 export const ERROR = 'error'
-export const ERROR_MESSAGE = 'error_message'
 // Room events
 export const JOIN_ROOM = 'join_room'
 export const LEAVE_ROOM = 'leave_room'

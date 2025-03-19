@@ -14,7 +14,6 @@ export const CONNECT_ERROR = 'connect_error';
 export const AUTHENTICATE = 'authenticate';
 export const USER = 'user';
 export const ERROR = 'error';
-export const ERROR_MESSAGE = 'error_message';
 
 // Room events
 export const JOIN_ROOM = 'join_room';
@@ -130,7 +129,6 @@ export namespace SocketEvents {
   export interface ServerToClientEvents {
     [USER]: (data: User) => void;
     [ERROR]: (data: ErrorPayload) => void;
-    [ERROR_MESSAGE]: (data: ErrorPayload) => void;
     [ROOMS]: (rooms: string[]) => void;
     [ROOM]: (data: Room) => void;
     [QUESTIONS]: (questions: Question[]) => void;
