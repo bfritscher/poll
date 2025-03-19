@@ -1,9 +1,5 @@
-migrate backend to socket.io
-switch to sqlite3?
-migrate data?
-fix stats data
-
-migrate frontend
+- test stats
+- test shortcuts (1-9 select)
 
 
 new features ideas

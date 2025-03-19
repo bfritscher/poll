@@ -145,14 +145,6 @@ md-list-item.current-user {
   color: #F44336;
 }
 
-.connection {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 5px;
-}
-
-
 /* admin */
 
 .admin-tabs md-tabs-canvas{

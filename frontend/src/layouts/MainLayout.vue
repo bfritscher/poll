@@ -13,8 +13,6 @@
 
     <q-page-container>
       <router-view />
-
-      <!-- Connection status indicator -->
       <div v-if="!comStore.online" class="connection-status">reconnecting...</div>
     </q-page-container>
   </q-layout>
@@ -35,39 +33,29 @@ const inRoom = computed(() => {
 
 // Handle keyboard shortcuts
 function handleKeyDown(event) {
-  const roomName = route.name
-  const isAdmin = comStore.isAdmin
-
-  if (roomName === 'room') {
-    if (isAdmin) {
-      // Admin shortcuts in room
-      if (event.keyCode === 76) {
-        // l
+  if (route.name === 'room') {
+    if (comStore.isAdmin) {
+      if (event.keyCode === 76) { // l
         comStore.setState('lobby')
       }
-      if (event.keyCode === 82) {
-        // r
+      if (event.keyCode === 82) { // r
         comStore.setState('results')
       }
-      if (event.keyCode === 37 || event.keyCode === 33) {
-        // leftArrow, pageUp
+      if (event.keyCode === 37 || event.keyCode === 33) { // leftArrow, pageUp
         comStore.previousState()
       }
-      if (event.keyCode === 39 || event.keyCode === 34) {
-        // rightArrow, pageDown
+      if (event.keyCode === 39 || event.keyCode === 34) { // rightArrow, pageDown
         comStore.nextState()
       }
-      if (event.keyCode === 190) {
-        // .
+      if (event.keyCode === 190) { // .
         comStore.setState(comStore.room?.state)
       }
     } else {
-      // Participant shortcuts in room
+      // number to select answer 1-9 and keypad
       let index
       if (event.keyCode >= 49 && event.keyCode <= 57) {
-        // 1-9 keys
         index = event.keyCode - 49
-        // We'll need to implement a custom event for this later
+        // Implement a custom event for this in Question.vue
         window.dispatchEvent(new CustomEvent('select-answer', { detail: { index } }))
       }
       if (event.keyCode >= 97 && event.keyCode <= 105) {
