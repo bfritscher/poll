@@ -4,51 +4,45 @@
     <div class="col-md-8">
       <question-component />
     </div>
-    
+
     <!-- Admin controls area -->
     <div class="col-md-4 bg-grey-2 q-pa-md">
       <div class="text-h6 q-mb-md">Controls</div>
-      
+
       <q-list bordered separator>
         <q-item>
           <q-item-section>
             <q-item-label>Show results to students</q-item-label>
           </q-item-section>
-          
+
           <q-item-section side>
-            <q-toggle
-              v-model="showResults"
-              color="primary"
-            />
+            <q-toggle v-model="showResults" color="primary" />
           </q-item-section>
         </q-item>
-        
+
         <q-item>
           <q-item-section>
             <q-item-label>Allow voting</q-item-label>
           </q-item-section>
-          
+
           <q-item-section side>
-            <q-toggle
-              v-model="allowVoting"
-              color="primary"
-            />
+            <q-toggle v-model="allowVoting" color="primary" />
           </q-item-section>
         </q-item>
       </q-list>
-      
+
       <!-- Real-time vote chart -->
       <div class="q-mt-md">
         <div class="text-subtitle1">Vote distribution</div>
         <div v-if="comStore.question?.answers" class="vote-chart q-mt-md">
-          <div 
-            v-for="(answer, index) in comStore.question.answers" 
+          <div
+            v-for="(answer, index) in comStore.question.answers"
             :key="index"
             class="vote-bar-container q-mb-xs"
           >
             <div class="vote-label">{{ index + 1 }}</div>
             <div class="vote-bar-wrapper">
-              <div 
+              <div
                 class="vote-bar"
                 :class="{ 'vote-correct': answer.correct }"
                 :style="{ width: `${calculatePercentage(index)}%` }"
@@ -65,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { computed } from 'vue'
 import { useComStore } from 'src/stores/com-store'
 import QuestionComponent from 'src/components/room/Question.vue'
 
@@ -84,7 +78,7 @@ const showResults = computed({
       // Hide results
       comStore.setState('q' + comStore.questionIndex)
     }
-  }
+  },
 })
 
 // Control for allowing voting
@@ -97,17 +91,15 @@ const allowVoting = computed({
     if (comStore.question) {
       const questionIndex = comStore.questionIndex
       if (questionIndex !== undefined) {
-        const state = value ? 
-          { stop: false } : 
-          { stop: true }
-        
+        const state = value ? { stop: false } : { stop: true }
+
         comStore.setState({
           ...state,
-          question: questionIndex
+          question: questionIndex,
         })
       }
     }
-  }
+  },
 })
 
 // Get vote count for a specific answer
@@ -115,7 +107,7 @@ function getVoteCount(answerIndex) {
   if (comStore.question?.votesByAnswers) {
     return comStore.question.votesByAnswers[answerIndex] || 0
   }
-  
+
   // Count votes manually from room.questions
   let count = 0
   if (comStore.room?.questions) {
@@ -131,7 +123,7 @@ function getVoteCount(answerIndex) {
       }
     }
   }
-  
+
   return count
 }
 
@@ -139,7 +131,7 @@ function getVoteCount(answerIndex) {
 function calculatePercentage(answerIndex) {
   const total = comStore.question?.votesCount || 0
   if (!total) return 0
-  
+
   const count = getVoteCount(answerIndex)
   return (count / total) * 100
 }
@@ -168,11 +160,11 @@ function calculatePercentage(answerIndex) {
 
 .vote-bar {
   height: 100%;
-  background-color: #2196F3;
+  background-color: #2196f3;
   transition: width 0.5s ease-out;
-  
+
   &.vote-correct {
-    background-color: #4CAF50;
+    background-color: #4caf50;
   }
 }
 

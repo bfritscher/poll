@@ -9,13 +9,13 @@
             <q-item>
               <q-item-section avatar>
                 <q-avatar>
-                  <img 
-                    :src="`/images/avatars/${user.avatar || avatarsStore.icons[index % avatarsStore.icons.length]}`" 
+                  <img
+                    :src="`/images/avatars/${user.avatar || avatarsStore.icons[index % avatarsStore.icons.length]}`"
                     :alt="`Avatar of ${user.firstname} ${user.lastname}`"
                   />
                 </q-avatar>
               </q-item-section>
-              
+
               <q-item-section>
                 <q-item-label>{{ user.firstname }} {{ user.lastname }}</q-item-label>
               </q-item-section>
@@ -40,16 +40,21 @@
             <q-item v-for="(question, index) in comStore.room?.questions" :key="index">
               <q-item-section>
                 <q-item-label>
-                  <span class="text-bold">{{ index + 1 }}.</span> 
+                  <span class="text-bold">{{ index + 1 }}.</span>
                   <span v-html="truncateContent(question.content)"></span>
                 </q-item-label>
-                <q-item-label caption v-if="question.isMultiple">
-                  Multiple answers
-                </q-item-label>
+                <q-item-label v-if="question.isMultiple" caption> Multiple answers </q-item-label>
               </q-item-section>
-              
+
               <q-item-section side>
-                <q-btn dense flat round color="primary" icon="play_arrow" @click="showQuestion(index)" />
+                <q-btn
+                  dense
+                  flat
+                  round
+                  color="primary"
+                  icon="play_arrow"
+                  @click="showQuestion(index)"
+                />
               </q-item-section>
             </q-item>
           </q-list>
@@ -59,7 +64,7 @@
 
     <!-- Add Question Dialog -->
     <q-dialog v-model="questionDialog" persistent>
-      <q-card style="width: 700px; max-width: 90vw;">
+      <q-card style="width: 700px; max-width: 90vw">
         <q-card-section>
           <div class="text-h6">Add Question</div>
         </q-card-section>
@@ -71,12 +76,12 @@
               label="Question content"
               type="textarea"
               autofocus
-              :rules="[val => !!val || 'Question is required']"
+              :rules="[(val) => !!val || 'Question is required']"
             />
-            
+
             <div class="q-mt-md text-subtitle1">Answers</div>
-            <div 
-              v-for="(answer, index) in newQuestion.answers" 
+            <div
+              v-for="(answer, index) in newQuestion.answers"
               :key="index"
               class="q-mb-sm row items-center"
             >
@@ -84,7 +89,7 @@
                 <q-input
                   v-model="answer.content"
                   :label="`Answer ${index + 1}`"
-                  :rules="[val => !!val || 'Answer is required']"
+                  :rules="[(val) => !!val || 'Answer is required']"
                   dense
                 />
               </div>
@@ -103,27 +108,19 @@
                 />
               </div>
             </div>
-            
+
             <div class="q-mt-md">
-              <q-btn
-                color="secondary"
-                icon="add"
-                label="Add Answer"
-                @click="addAnswer"
-              />
+              <q-btn color="secondary" icon="add" label="Add Answer" @click="addAnswer" />
             </div>
-            
+
             <div class="q-mt-md">
-              <q-toggle
-                v-model="newQuestion.isMultiple"
-                label="Multiple answers allowed"
-              />
+              <q-toggle v-model="newQuestion.isMultiple" label="Multiple answers allowed" />
             </div>
           </q-form>
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn v-close-popup flat label="Cancel" color="primary" />
           <q-btn flat label="Save" color="primary" @click="submitQuestion" />
         </q-card-actions>
       </q-card>
@@ -145,9 +142,9 @@ const newQuestion = ref({
   content: '',
   answers: [
     { content: '', correct: false },
-    { content: '', correct: false }
+    { content: '', correct: false },
   ],
-  isMultiple: false
+  isMultiple: false,
 })
 
 // Reset question form
@@ -156,9 +153,9 @@ function resetQuestionForm() {
     content: '',
     answers: [
       { content: '', correct: false },
-      { content: '', correct: false }
+      { content: '', correct: false },
     ],
-    isMultiple: false
+    isMultiple: false,
   }
 }
 
@@ -184,16 +181,16 @@ function submitQuestion() {
   if (!newQuestion.value.content) {
     return
   }
-  
+
   for (const answer of newQuestion.value.answers) {
     if (!answer.content) {
       return
     }
   }
-  
+
   // If the question is not multiple choice, ensure only one answer is marked as correct
   if (!newQuestion.value.isMultiple) {
-    const correctAnswers = newQuestion.value.answers.filter(a => a.correct)
+    const correctAnswers = newQuestion.value.answers.filter((a) => a.correct)
     if (correctAnswers.length > 1) {
       // If multiple answers are marked correct, keep only the first one
       for (let i = 1; i < correctAnswers.length; i++) {
@@ -201,10 +198,10 @@ function submitQuestion() {
       }
     }
   }
-  
+
   // Submit to server
   comStore.addQuestion({ ...newQuestion.value })
-  
+
   // Close the dialog and reset form
   questionDialog.value = false
   resetQuestionForm()
@@ -218,7 +215,7 @@ function showQuestion(index) {
 // Truncate content for display
 function truncateContent(content) {
   if (!content) return ''
-  
+
   content = content.replace(/<[^>]*>/g, '') // Remove HTML tags
   if (content.length > 50) {
     return content.substring(0, 50) + '...'
@@ -227,18 +224,17 @@ function truncateContent(content) {
 }
 
 // Computed properties
-const participantsCount = computed(() => 
-  comStore.room?.voters ? Object.keys(comStore.room.voters).length : 0
+const participantsCount = computed(() =>
+  comStore.room?.voters ? Object.keys(comStore.room.voters).length : 0,
 )
 
-const questionsCount = computed(() => 
-  comStore.room?.questions ? comStore.room.questions.length : 0
+const questionsCount = computed(() =>
+  comStore.room?.questions ? comStore.room.questions.length : 0,
 )
 
 const orderedVoters = computed(() => {
   if (!comStore.room?.voters) return []
-  
-  return Object.values(comStore.room.voters)
-    .sort(comStore.userSorter)
+
+  return Object.values(comStore.room.voters).sort(comStore.userSorter)
 })
 </script>

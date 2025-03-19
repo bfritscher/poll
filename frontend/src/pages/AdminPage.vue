@@ -1,37 +1,42 @@
 <template>
   <q-page class="column full-height">
     <room-toolbar />
-    
+
     <!-- Admin Control Panel -->
     <div class="admin-controls row q-pa-sm bg-grey-3">
       <!-- State controls -->
       <div class="col-auto">
         <q-btn-group>
           <q-btn color="primary" icon="manage_accounts" label="Lobby" @click="setState('lobby')" />
-          <q-btn color="primary" icon="question_answer" label="Questions" @click="openFirstQuestion" />
+          <q-btn
+            color="primary"
+            icon="question_answer"
+            label="Questions"
+            @click="openFirstQuestion"
+          />
           <q-btn color="primary" icon="poll" label="Results" @click="setState('results')" />
         </q-btn-group>
       </div>
-      
+
       <q-space />
-      
+
       <!-- Question navigation controls (displayed when in question state) -->
-      <div class="col-auto" v-if="comStore.room?.state?.indexOf('q') === 0">
+      <div v-if="comStore.room?.state?.indexOf('q') === 0" class="col-auto">
         <q-btn-group>
           <q-btn color="primary" icon="arrow_back" @click="previousState" />
           <q-btn color="primary" icon="refresh" @click="resetState" />
           <q-btn color="primary" icon="arrow_forward" @click="nextState" />
         </q-btn-group>
       </div>
-      
+
       <q-space />
-      
+
       <!-- Close room button -->
       <div class="col-auto">
         <q-btn color="negative" icon="close" label="Close room" @click="confirmClose" />
       </div>
     </div>
-    
+
     <!-- Dynamic content based on room state -->
     <admin-lobby v-if="comStore.room?.state === 'lobby'" />
     <admin-question v-else-if="comStore.room?.state?.indexOf('q') === 0" />
@@ -84,7 +89,7 @@ function confirmClose() {
     title: 'Close Room',
     message: 'Are you sure you want to close this room?',
     persistent: true,
-    cancel: true
+    cancel: true,
   }).onOk(() => {
     comStore.closeRoom()
     router.push({ name: 'home' })

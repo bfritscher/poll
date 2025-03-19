@@ -5,7 +5,7 @@
       <q-toolbar class="bg-primary text-white">
         <q-toolbar-title>Select Avatar</q-toolbar-title>
       </q-toolbar>
-      
+
       <q-scroll-area class="fit">
         <div class="q-pa-md row items-start q-gutter-md">
           <q-btn
@@ -13,8 +13,8 @@
             :key="index"
             round
             flat
-            :class="{ 
-              selected: currentUserAvatar === icon 
+            :class="{
+              selected: currentUserAvatar === icon,
             }"
             @click="selectAvatar(index)"
           >
@@ -25,31 +25,31 @@
         </div>
       </q-scroll-area>
     </q-drawer>
-    
+
     <!-- Participants list -->
     <q-scroll-area class="full-height">
       <div class="row q-col-gutter-sm q-pa-md">
         <div
-          v-for="(user, index) in orderedVoters" 
+          v-for="(user, index) in orderedVoters"
           :key="user.email"
           class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2"
         >
-          <q-item 
-            clickable 
+          <q-item
+            clickable
             :class="{ 'current-user': user.email === comStore.user?.email }"
-            @click="avatarDrawer = true"
             class="q-mb-sm"
             style="border-radius: 8px"
+            @click="avatarDrawer = true"
           >
             <q-item-section avatar>
               <q-avatar>
-                <img 
-                  :src="`/images/avatars/${user.avatar || avatarsStore.icons[index % avatarsStore.icons.length]}`" 
+                <img
+                  :src="`/images/avatars/${user.avatar || avatarsStore.icons[index % avatarsStore.icons.length]}`"
                   :alt="`Avatar of ${user.firstname} ${user.lastname}`"
                 />
               </q-avatar>
             </q-item-section>
-            
+
             <q-item-section>
               <q-item-label>{{ user.firstname }} {{ user.lastname }}</q-item-label>
             </q-item-section>
@@ -80,9 +80,8 @@ const currentUserAvatar = computed(() => {
 // Get ordered list of voters/participants
 const orderedVoters = computed(() => {
   if (!comStore.room?.voters) return []
-  
-  return Object.values(comStore.room.voters)
-    .sort(comStore.userSorter)
+
+  return Object.values(comStore.room.voters).sort(comStore.userSorter)
 })
 
 // Select an avatar

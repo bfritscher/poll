@@ -52,7 +52,7 @@ export const useAvatarsStore = defineStore('avatars', {
       'welder.svg',
       'worker-1.svg',
       'worker.svg',
-      'writer.svg'
-    ]
-  })
+      'writer.svg',
+    ],
+  }),
 })

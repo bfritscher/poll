@@ -1,7 +1,7 @@
 <template>
   <q-page class="column full-height">
     <room-toolbar />
-    
+
     <!-- Dynamic content based on room state -->
     <lobby-component v-if="comStore.room?.state === 'lobby'" />
     <question-component v-else-if="comStore.room?.state?.indexOf('q') === 0" />

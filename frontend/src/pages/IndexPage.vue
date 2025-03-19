@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     <q-list class="home-list q-my-md">
       <template v-if="comStore.rooms && comStore.rooms.length > 0">
-        <template v-for="(room, index) in comStore.rooms" :key="room">
+        <template v-for="room in comStore.rooms" :key="room">
           <q-separator />
           <q-item clickable :to="{ name: 'room', params: { name: room } }">
             <q-item-section>
@@ -28,12 +28,7 @@
 
     <!-- FAB for adding new room (admin only) -->
     <q-page-sticky v-if="comStore.isAdmin" position="bottom-right" :offset="[16, 16]">
-      <q-btn
-        fab
-        icon="add"
-        color="primary"
-        @click="addRoom"
-      />
+      <q-btn fab icon="add" color="primary" @click="addRoom" />
     </q-page-sticky>
   </q-page>
 </template>
@@ -51,24 +46,24 @@ function addRoom() {
     title: 'Name of the new room?',
     prompt: {
       model: 'Quiz',
-      type: 'text'
+      type: 'text',
     },
     cancel: true,
-    persistent: true
-  }).onOk(roomName => {
+    persistent: true,
+  }).onOk((roomName) => {
     if (!roomName) return
-    
+
     $q.dialog({
       title: 'Name of the course?',
       prompt: {
         model: 'SQL 1IG 2023',
-        type: 'text'
+        type: 'text',
       },
       cancel: true,
-      persistent: true
-    }).onOk(courseName => {
+      persistent: true,
+    }).onOk((courseName) => {
       if (!courseName) return
-      
+
       comStore.createRoom(roomName, courseName)
     })
   })
@@ -80,12 +75,13 @@ function addRoom() {
   width: 100%;
   max-width: 768px;
   background-color: white;
-  
+
   @media (min-width: 768px) {
     margin: 20px auto;
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 
-                0px 1px 1px 0px rgba(0, 0, 0, 0.14), 
-                0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+    box-shadow:
+      0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+      0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+      0px 2px 1px -1px rgba(0, 0, 0, 0.12);
   }
 }
 </style>

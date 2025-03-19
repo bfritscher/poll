@@ -3,11 +3,11 @@ import { io } from 'socket.io-client'
 
 // Create a Socket.io instance with configuration
 const socket = io('localhost:3033', {
-  transports: ['websocket', 'polling'],  // Try WebSocket first, then fallback to polling
+  transports: ['websocket', 'polling'], // Try WebSocket first, then fallback to polling
   reconnection: true,
   reconnectionAttempts: Infinity,
   reconnectionDelay: 1000,
-  autoConnect: true   // Connect immediately
+  autoConnect: true, // Connect immediately
 })
 
 // Debug events in development
