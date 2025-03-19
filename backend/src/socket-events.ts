@@ -3,7 +3,7 @@
  * This file is shared between the frontend and backend to ensure consistency
  */
 
-import type { Room, User, Question, IAnswer, Score } from './models.js';
+import type { Room, User, Question, Score } from './models.js';
 
 // Connection events
 export const CONNECTION = 'connection';
