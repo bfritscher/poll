@@ -11,7 +11,7 @@
             <q-item-section avatar>
               <q-avatar>
                 <img
-                  :src="`/images/avatars/${score.user.avatar || avatarsStore.icons[index % avatarsStore.icons.length]}`"
+                  :src="`/images/avatars/${score.user.avatar || avatars[index % avatars.length]}`"
                   :alt="`Avatar of ${score.user.firstname} ${score.user.lastname}`"
                 />
               </q-avatar>
@@ -32,11 +32,10 @@
 </template>
 
 <script setup>
-import { useComStore } from 'src/stores/com-store'
-import { useAvatarsStore } from 'src/services/avatars'
+import { useComStore } from 'src/stores/com'
+import { avatars } from 'src/constants'
 
 const comStore = useComStore()
-const avatarsStore = useAvatarsStore()
 
 // Format number to show no decimal places
 const formatNumber = (value) => {

@@ -48,7 +48,7 @@
 import { onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { useComStore } from 'src/stores/com-store'
+import { useComStore } from 'src/stores/com'
 import RoomToolbar from 'src/components/shared/RoomToolbar.vue'
 import AdminLobby from 'src/components/admin/Lobby.vue'
 import AdminQuestion from 'src/components/admin/Question.vue'

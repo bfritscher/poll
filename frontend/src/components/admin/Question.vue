@@ -60,7 +60,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useComStore } from 'src/stores/com-store'
+import { useComStore } from 'src/stores/com'
 import QuestionComponent from 'src/components/room/Question.vue'
 
 const comStore = useComStore()

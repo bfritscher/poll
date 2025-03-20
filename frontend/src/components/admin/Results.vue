@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import { useComStore } from 'src/stores/com-store'
+import { useComStore } from 'src/stores/com'
 import ResultsComponent from 'src/components/room/Results.vue'
 
 const comStore = useComStore()

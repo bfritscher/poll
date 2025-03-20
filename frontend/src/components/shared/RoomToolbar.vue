@@ -39,7 +39,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useComStore } from 'src/stores/com-store'
+import { useComStore } from 'src/stores/com'
 import { useRoute } from 'vue-router'
 
 const comStore = useComStore()

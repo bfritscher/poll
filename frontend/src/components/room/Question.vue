@@ -48,7 +48,7 @@
 
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
-import { useComStore } from 'src/stores/com-store'
+import { useComStore } from 'src/stores/com'
 
 const comStore = useComStore()
 

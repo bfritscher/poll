@@ -12,7 +12,7 @@
 <script setup>
 import { onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
-import { useComStore } from 'src/stores/com-store'
+import { useComStore } from 'src/stores/com'
 import RoomToolbar from 'src/components/shared/RoomToolbar.vue'
 import LobbyComponent from 'src/components/room/Lobby.vue'
 import QuestionComponent from 'src/components/room/Question.vue'

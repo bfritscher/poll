@@ -10,6 +10,9 @@ import dotenv from 'dotenv';
 
 // Load environment variables from .env file if it exists
 dotenv.config();
+if (process.env.JWT_SHARED_SECRET === undefined) {
+  throw new Error('JWT_SHARED_SECRET is not defined');
+}
 
 import pkg from 'sequelize';
 const { Op } = pkg;
@@ -56,7 +59,7 @@ let rooms: { [key: string]: Room } = {};
 
 io.on(SocketEvents.CONNECTION, (socket) => {
   console.log(`[${new Date().toISOString()}] New socket connection: ${socket.id}`);
-  
+
   // give room list
   socket.emit(SocketEvents.ROOMS, Object.keys(rooms));
   console.log(`[${new Date().toISOString()}] Sent rooms list to socket ${socket.id}`);
@@ -74,7 +77,7 @@ io.on(SocketEvents.CONNECTION, (socket) => {
 
   function requireAdmin(): boolean {
     if (!requireLogin()) return false;
-    
+
     if (!user.isAdmin) {
       socket.emit(SocketEvents.ERROR, { type: ErrorType.NOT_ADMIN });
       return false;
@@ -84,7 +87,7 @@ io.on(SocketEvents.CONNECTION, (socket) => {
 
   function requireNonAdmin(): boolean {
     if (!requireLogin()) return false;
-    
+
     if (user.isAdmin) {
       socket.emit(SocketEvents.ERROR, { type: ErrorType.NOT_USER });
       return false;
@@ -144,7 +147,7 @@ io.on(SocketEvents.CONNECTION, (socket) => {
   async function handleToken(token: string) {
     console.log(`[${new Date().toISOString()}] Received token event from socket ${socket.id}`);
     console.log(`[${new Date().toISOString()}] Token data: ${token ? 'provided' : 'missing'}`);
-    
+
     try {
       user = await User.fromToken(token);
       console.log(`[${new Date().toISOString()}] User authenticated: ${user.email}`);

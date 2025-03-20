@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex content-start">
     <q-list class="home-list q-my-md">
       <template v-if="comStore.rooms && comStore.rooms.length > 0">
         <template v-for="room in comStore.rooms" :key="room">
@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { useComStore } from 'src/stores/com-store'
+import { useComStore } from 'src/stores/com'
 import { useQuasar } from 'quasar'
 
 const comStore = useComStore()

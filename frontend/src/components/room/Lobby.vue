@@ -9,7 +9,7 @@
       <q-scroll-area class="fit">
         <div class="q-pa-md row items-start q-gutter-md">
           <q-btn
-            v-for="(icon, index) in avatarsStore.icons"
+            v-for="(icon, index) in avatars"
             :key="index"
             round
             flat
@@ -44,7 +44,7 @@
             <q-item-section avatar>
               <q-avatar>
                 <img
-                  :src="`/images/avatars/${user.avatar || avatarsStore.icons[index % avatarsStore.icons.length]}`"
+                  :src="`/images/avatars/${user.avatar || avatars[index % avatars.length]}`"
                   :alt="`Avatar of ${user.firstname} ${user.lastname}`"
                 />
               </q-avatar>
@@ -62,11 +62,10 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useComStore } from 'src/stores/com-store'
-import { useAvatarsStore } from 'src/services/avatars'
+import { useComStore } from 'src/stores/com'
+import { avatars } from 'src/constants'
 
 const comStore = useComStore()
-const avatarsStore = useAvatarsStore()
 const avatarDrawer = ref(false)
 
 // Get the current user's avatar
@@ -86,7 +85,7 @@ const orderedVoters = computed(() => {
 
 // Select an avatar
 function selectAvatar(index) {
-  comStore.setAvatar(avatarsStore.icons[index])
+  comStore.setAvatar(avatars[index])
   avatarDrawer.value = false
 }
 </script>

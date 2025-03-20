@@ -13,8 +13,6 @@ export default defineConfig((/* ctx */) => {
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
     boot: [
       'pinia', // Must come before other boot files that use Pinia
-      'auth-handler', // Handle auth token from URL
-      'socket', // Socket.io setup
       'axios', // Our custom axios boot file
     ],
 

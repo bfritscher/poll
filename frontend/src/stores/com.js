@@ -2,10 +2,30 @@ import { defineStore } from 'pinia'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { socket } from 'src/boot/socket'
+import { io } from 'socket.io-client'
 import * as SocketEvents from '../socket-events'
 
 export const useComStore = defineStore('com', () => {
+
+  const router = useRouter()
+
+  // Create a Socket.io instance with configuration
+const socket = io('localhost:3033', {
+  transports: ['websocket', 'polling'], // Try WebSocket first, then fallback to polling
+  reconnection: true,
+  reconnectionAttempts: Infinity,
+  reconnectionDelay: 1000,
+  autoConnect: true, // Connect immediately
+})
+
+// Debug events in development
+if (process.env.NODE_ENV === 'development') {
+  socket.onAny((event, ...args) => {
+    console.debug(`[Socket.io] ${event}:`, args)
+  })
+}
+
+
   // State
   const online = ref(false)
   const user = ref(null)
@@ -78,9 +98,9 @@ export const useComStore = defineStore('com', () => {
     })
 
     socket.on(SocketEvents.ROOMS, (data) => {
+      console.log('Received rooms:', data)
       rooms.value = data
 
-      const router = useRouter()
       if (waitingOnRoom.value && rooms.value.indexOf(waitingOnRoom.value) > -1) {
         router.push({ name: 'admin', params: { name: waitingOnRoom.value } })
         waitingOnRoom.value = null

@@ -2,12 +2,10 @@
   <q-layout view="lHh Lpr lFf">
     <q-header v-if="!inRoom" elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <q-icon name="poll" />
-          </q-avatar>
-          Poll
-        </q-toolbar-title>
+        <q-avatar square size="24px">
+          <img src="/icons/logo.svg" alt="Logo" />
+        </q-avatar>
+        <q-toolbar-title> Poll </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -21,7 +19,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useComStore } from 'src/stores/com-store'
+import { useComStore } from 'src/stores/com'
 
 const route = useRoute()
 const comStore = useComStore()
@@ -35,19 +33,24 @@ const inRoom = computed(() => {
 function handleKeyDown(event) {
   if (route.name === 'room') {
     if (comStore.isAdmin) {
-      if (event.keyCode === 76) { // l
+      if (event.keyCode === 76) {
+        // l
         comStore.setState('lobby')
       }
-      if (event.keyCode === 82) { // r
+      if (event.keyCode === 82) {
+        // r
         comStore.setState('results')
       }
-      if (event.keyCode === 37 || event.keyCode === 33) { // leftArrow, pageUp
+      if (event.keyCode === 37 || event.keyCode === 33) {
+        // leftArrow, pageUp
         comStore.previousState()
       }
-      if (event.keyCode === 39 || event.keyCode === 34) { // rightArrow, pageDown
+      if (event.keyCode === 39 || event.keyCode === 34) {
+        // rightArrow, pageDown
         comStore.nextState()
       }
-      if (event.keyCode === 190) { // .
+      if (event.keyCode === 190) {
+        // .
         comStore.setState(comStore.room?.state)
       }
     } else {

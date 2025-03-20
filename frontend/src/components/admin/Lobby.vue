@@ -10,7 +10,7 @@
               <q-item-section avatar>
                 <q-avatar>
                   <img
-                    :src="`/images/avatars/${user.avatar || avatarsStore.icons[index % avatarsStore.icons.length]}`"
+                    :src="`/images/avatars/${user.avatar || avatars[index % avatars.length]}`"
                     :alt="`Avatar of ${user.firstname} ${user.lastname}`"
                   />
                 </q-avatar>
@@ -130,11 +130,10 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useComStore } from 'src/stores/com-store'
-import { useAvatarsStore } from 'src/services/avatars'
+import { useComStore } from 'src/stores/com'
+import { avatars } from 'src/constants'
 
 const comStore = useComStore()
-const avatarsStore = useAvatarsStore()
 const questionDialog = ref(false)
 
 // Question form data
