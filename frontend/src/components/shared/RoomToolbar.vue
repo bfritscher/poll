@@ -1,11 +1,11 @@
 <template>
-  <q-toolbar class="bg-white text-dark shadow-1">
-    <q-toolbar-title class="flex">
+  <q-toolbar>
       <q-btn flat no-caps to="/" class="q-mr-sm">
-        <q-icon name="poll" class="q-mr-xs" />
-        Poll
+        <q-avatar square size="24px">
+          <img src="/icons/logo.svg" alt="Logo" />
+          </q-avatar>
+        <q-toolbar-title>Poll</q-toolbar-title>
       </q-btn>
-    </q-toolbar-title>
 
     <div class="room-toolbar-state">
       <span class="room-toolbar-name">{{ comStore.room?.name }}</span>

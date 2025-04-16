@@ -21,7 +21,7 @@
       <q-space />
 
       <!-- Question navigation controls (displayed when in question state) -->
-      <div v-if="comStore.room?.state?.indexOf('q') === 0" class="col-auto">
+      <div  class="col-auto">
         <q-btn-group>
           <q-btn color="primary" icon="arrow_back" @click="previousState" />
           <q-btn color="primary" icon="refresh" @click="resetState" />
@@ -38,9 +38,9 @@
     </div>
 
     <!-- Dynamic content based on room state -->
-    <admin-lobby v-if="comStore.room?.state === 'lobby'" />
-    <admin-question v-else-if="comStore.room?.state?.indexOf('q') === 0" />
-    <admin-results v-else-if="comStore.room?.state === 'results'" />
+    <admin-lobby />
+    <admin-question />
+    <admin-results />
   </q-page>
 </template>
 
