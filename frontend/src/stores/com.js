@@ -6,25 +6,28 @@ import { io } from 'socket.io-client'
 import * as SocketEvents from '../socket-events'
 
 export const useComStore = defineStore('com', () => {
-
   const router = useRouter()
 
   // Create a Socket.io instance with configuration
-const socket = io('localhost:3033', {
-  transports: ['websocket', 'polling'], // Try WebSocket first, then fallback to polling
-  reconnection: true,
-  reconnectionAttempts: Infinity,
-  reconnectionDelay: 1000,
-  autoConnect: true, // Connect immediately
-})
-
-// Debug events in development
-if (process.env.NODE_ENV === 'development') {
-  socket.onAny((event, ...args) => {
-    console.debug(`[Socket.io] ${event}:`, args)
+  const socket = io('localhost:3033', {
+    transports: ['websocket', 'polling'], // Try WebSocket first, then fallback to polling
+    reconnection: true,
+    reconnectionAttempts: Infinity,
+    reconnectionDelay: 1000,
+    autoConnect: true, // Connect immediately
   })
-}
 
+  // Debug events in development
+  if (process.env.NODE_ENV === 'development') {
+    socket.onAny((event, ...args) => {
+      console.debug(`[Socket.io] ${event}:`, args)
+    })
+  }
+
+  let resolveUser
+  let userReady = new Promise((resolve) => {
+    resolveUser = resolve
+  })
 
   // State
   const online = ref(false)
@@ -54,6 +57,13 @@ if (process.env.NODE_ENV === 'development') {
       login()
     })
 
+    socket.on('disconnect', () => {
+      online.value = false
+      userReady = new Promise((resolve) => {
+        resolveUser = resolve
+      })
+    })
+
     socket.on(SocketEvents.DISCONNECT, () => {
       online.value = false
       console.log('Socket disconnected')
@@ -65,6 +75,7 @@ if (process.env.NODE_ENV === 'development') {
 
     socket.on(SocketEvents.USER, (data) => {
       user.value = data
+      resolveUser(data)
     })
 
     socket.on(SocketEvents.ERROR, (data) => {
@@ -266,15 +277,9 @@ if (process.env.NODE_ENV === 'development') {
   }
 
   // Room actions
-  function joinRoom(roomName) {
-    if (socket.connected && user.value) {
-      socket.emit(SocketEvents.JOIN_ROOM, roomName)
-    } else if (socket.connected) {
-      // Try to authenticate first, then join
-      login()
-      // We might want to remember the room to join after auth
-      waitingOnRoom.value = roomName
-    }
+  async function joinRoom(roomName) {
+    await userReady;
+    socket.emit(SocketEvents.JOIN_ROOM, roomName)
   }
 
   function leaveRoom() {

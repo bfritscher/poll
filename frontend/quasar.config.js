@@ -12,7 +12,6 @@ export default defineConfig((/* ctx */) => {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
     boot: [
-      'pinia', // Must come before other boot files that use Pinia
       'axios', // Our custom axios boot file
     ],
 
