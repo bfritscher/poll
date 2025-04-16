@@ -193,17 +193,21 @@ export class Room {
   }
 
   addParticipant(user: User): void {
-    if (!this.participants.hasOwnProperty(user.email)) {
+    if (user && user.email && !this.participants.hasOwnProperty(user.email)) {
       this.participants[user.email] = user;
     }
   }
 
   joinVoters(user: User): void {
-    this.voters[user.email] = user;
+    if (user && user.email) {
+      this.voters[user.email] = user;
+    }
   }
 
   leaveVoters(user: User): void {
-    delete this.voters[user.email];
+    if (user && user.email) {
+      delete this.voters[user.email];
+    }
   }
 
   getFilteredRoom(): any {
