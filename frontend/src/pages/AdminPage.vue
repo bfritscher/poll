@@ -93,7 +93,7 @@
                 outlined
                 dense
                 class="col"
-                style="min-width: 200px"
+                style="min-width: 200px;max-width: 90vw;"
                 @update:model-value="comStore.setState($event)"
               >
                 <template #option="scope">
@@ -284,7 +284,7 @@ const onFileAdded = (files) => {
     importError.value = 'Error reading file.'
     $q.notify({ type: 'negative', message: 'Error reading file.' })
   }
-  reader.readAsText(files[0].__origin.file, 'UTF-8') // Access the underlying File object
+  reader.readAsText(files[0], 'UTF-8') // Direct access to the file object
 }
 
 // --- ColorVote Question ---
