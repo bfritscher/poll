@@ -10,12 +10,12 @@
           <div
             v-ripple
             class="answer-content row align-start q-pt-sm q-pb-sm q-pr-sm"
-            :class="{ disabled: comStore.question?.stop }"
+            :class="{ disabled: !!comStore.question?.stop }"
             @click="toggleAnswer(index)"
           >
             <div>
               <q-checkbox
-                :disable="comStore.question?.stop"
+                :disable="!!comStore.question?.stop"
                 :model-value="exists(index)"
                 @update:model-value="toggleAnswer(index)"
               />
@@ -69,6 +69,11 @@ function toggleAnswer(answerIndex) {
     !comStore.question?.answers ||
     answerIndex >= comStore.question.answers.length
   ) {
+    return
+  }
+
+  // Don't allow changes if question is stopped
+  if (comStore.question?.stop) {
     return
   }
 
