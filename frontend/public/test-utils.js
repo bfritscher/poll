@@ -7,7 +7,6 @@
  *
  * Requirements:
  * 1. Backend must be running with NODE_ENV=development or ENABLE_TEST_MODE=true
- * 2. You must have a valid JWT token already stored
  */
 
 // JWT Secret - this should match your backend JWT_SHARED_SECRET
@@ -136,15 +135,25 @@ function getCurrentUser() {
  */
 async function createAndStoreTestToken(userType, userId = '1') {
   const currentToken = getCurrentToken();
-  if (!currentToken) {
-    console.error('No current JWT token found. Please authenticate first.');
-    return false;
+  let originalPayload = null;
+
+  if (currentToken) {
+    originalPayload = decodeJWT(currentToken);
+    if (!originalPayload) {
+      console.warn('Cannot decode current JWT token, creating new token from scratch');
+    }
   }
 
-  const originalPayload = decodeJWT(currentToken);
+  // If no valid original token, create a default payload
   if (!originalPayload) {
-    console.error('Cannot decode current JWT token');
-    return false;
+    console.log('No valid JWT token found, creating new test token from scratch');
+    originalPayload = {
+      email: 'default@example.com',
+      firstname: 'Default',
+      lastname: 'User',
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
+    };
   }
 
   // Create modified payload with test flags
@@ -222,6 +231,16 @@ async function resetToNormal() {
   if (!originalPayload) {
     console.error('Cannot decode current JWT token');
     return false;
+  }
+
+  // If this was a token created from scratch (no original user data), remove it entirely
+  if (originalPayload.email === 'default@example.com' &&
+      originalPayload.firstname === 'Default' &&
+      originalPayload.lastname === 'User') {
+    localStorage.removeItem('jwt');
+    console.log('✅ Test token removed! You are now logged out.');
+    console.log('🔄 Please refresh the page to see changes.');
+    return true;
   }
 
   // Remove test mode flags
@@ -319,6 +338,25 @@ async function quickSwitch(userType, userId = '1') {
   return success;
 }
 
+/**
+ * Create a completely fake user token (useful when no JWT exists)
+ */
+async function createFakeUser(userType = 'user', userId = '1') {
+  console.log(`🧪 Creating fake ${userType} token from scratch...`);
+
+  // Remove any existing token first
+  localStorage.removeItem('jwt');
+
+  const success = await createAndStoreTestToken(userType, userId);
+  if (success) {
+    console.log(`✅ Fake ${userType} created successfully!`);
+    setTimeout(() => {
+      forceReconnect();
+    }, 100);
+  }
+  return success;
+}
+
 // Export functions for console use
 window.pollTestUtils = {
   getCurrentUser,
@@ -327,13 +365,15 @@ window.pollTestUtils = {
   becomeAdmin,
   becomeUser,
   resetToNormal,
+  createFakeUser,
   decodeJWT,
   forceReconnect,
   quickSwitch,
   // Legacy aliases for backward compatibility
   admin: () => quickSwitch('admin'),
   user: (id) => quickSwitch('user', id),
-  normal: () => quickSwitch('normal')
+  normal: () => quickSwitch('normal'),
+  fake: (type, id) => createFakeUser(type, id)
 };
 
 console.log('🧪 Poll Test Utils loaded!');
@@ -341,16 +381,20 @@ console.log('Available functions:');
 console.log('- whoAmI() - Show current user info');
 console.log('- becomeAdmin() - Switch to admin mode');
 console.log('- becomeUser(id) - Switch to user mode');
-console.log('- resetToNormal() - Reset to original user');
+console.log('- createFakeUser(type, id) - Create fake user from scratch');
+console.log('- resetToNormal() - Reset to original user or logout if created from scratch');
 console.log('- quickSwitch(type, id) - Quick switch with auto-reconnect');
 console.log('- forceReconnect() - Force socket reconnection');
 console.log('');
 console.log('🚀 Quick commands:');
 console.log('- pollTestUtils.admin() - Become admin');
 console.log('- pollTestUtils.user(2) - Become user 2');
+console.log('- pollTestUtils.fake("admin") - Create fake admin');
+console.log('- pollTestUtils.fake("user", 3) - Create fake user 3');
 console.log('- pollTestUtils.normal() - Reset to normal');
 console.log('');
 console.log('Example usage:');
 console.log('pollTestUtils.whoAmI()');
 console.log('pollTestUtils.admin()');
 console.log('pollTestUtils.user(3)');
+console.log('pollTestUtils.fake("admin")');  // New example

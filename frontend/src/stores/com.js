@@ -99,8 +99,8 @@ export const useComStore = defineStore('com', () => {
     })
 
     socket.on(SocketEvents.USER_AVATAR_UPDATE, (data) => {
-      if (room.value && Object.prototype.hasOwnProperty.call(room.value.voters, data.user)) {
-        room.value.voters[data.user].avatar = data.avatar
+      if (room.value && Object.prototype.hasOwnProperty.call(room.value.voters, data.u)) {
+        room.value.voters[data.u].avatar = data.v
       }
     })
 
