@@ -138,51 +138,23 @@
               comStore.room?.questions?.[comStore.questionIndex]
             "
           >
-            <q-card>
-              <q-card-section>
-                <div class="text-h6">No vote</div>
-              </q-card-section>
-              <q-list dense>
-                <q-item v-for="(user, index) in votersWithoutAnswer" :key="user.email">
-                  <q-item-section avatar>
-                    <q-avatar>
-                      <img :src="getAvatarUrl(user, index)" />
-                    </q-avatar>
-                  </q-item-section>
-                  <q-item-section>{{ user.firstname }} {{ user.lastname }}</q-item-section>
-                </q-item>
-                <q-item v-if="!votersWithoutAnswer.length">
-                  <q-item-section class="text-grey">Everyone has voted.</q-item-section>
-                </q-item>
-              </q-list>
-            </q-card>
+            <vote-result-card
+              title="No vote"
+              :users="votersWithoutAnswer"
+              empty-message="Everyone has voted."
+            />
 
-            <q-card
+            <vote-result-card
               v-for="(answer, answerIndex) in comStore.room.questions[comStore.questionIndex]
                 .answers"
               :key="answerIndex"
-              class="q-mt-md"
-            >
-              <q-card-section>
-                <div class="text-h6">
-                  {{ answerIndex + 1 }}. <span v-if="answer.correct">(correct)</span>
-                  <div class="overflow-hidden" v-html="answer.content"></div>
-                </div>
-              </q-card-section>
-              <q-list dense>
-                <q-item v-for="(user, index) in votersByAnswer(answerIndex)" :key="user.email">
-                  <q-item-section avatar>
-                    <q-avatar>
-                      <img :src="getAvatarUrl(user, index)" />
-                    </q-avatar>
-                  </q-item-section>
-                  <q-item-section>{{ user.firstname }} {{ user.lastname }}</q-item-section>
-                </q-item>
-                <q-item v-if="!votersByAnswer(answerIndex).length">
-                  <q-item-section class="text-grey">No votes for this answer.</q-item-section>
-                </q-item>
-              </q-list>
-            </q-card>
+              :answer-index="answerIndex"
+              :is-correct="answer.correct"
+              :answer-content="answer.content"
+              :users="votersByAnswer(answerIndex)"
+              empty-message="No votes for this answer."
+              card-class="q-mt-md"
+            />
           </div>
 
           <q-card v-if="comStore.room?.state === SocketEvents.RoomState.RESULTS">
@@ -219,6 +191,7 @@ import yaml from 'js-yaml'
 import { useComStore } from 'src/stores/com'
 import RoomToolbar from 'src/components/shared/RoomToolbar.vue'
 import Results from 'src/components/room/Results.vue'
+import VoteResultCard from 'src/components/shared/VoteResultCard.vue'
 import { avatars } from 'src/constants'
 import * as SocketEvents from 'src/socket-events' // added
 
@@ -366,16 +339,6 @@ const stripHtml = (html) => {
   if (!html) return ''
   const doc = new DOMParser().parseFromString(html, 'text/html')
   return doc.body.textContent || ''
-}
-
-const getAvatarUrl = (user, index) => {
-  // Prioritize matricule-based image if available (like in old code)
-  if (user?.matricule) {
-    return `https://amc.ig.he-arc.ch/sdb/images/students/${user.matricule}.jpg`
-  }
-  // Use assigned avatar or fallback to cycling through the list
-  const avatarFile = user?.avatar || avatars[index % avatars.length]
-  return `/images/avatars/${avatarFile}` // Adjusted path for public folder
 }
 
 // --- Lifecycle and Room Management ---
