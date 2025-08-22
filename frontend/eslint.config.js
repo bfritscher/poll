@@ -1,75 +1,65 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import js from '@eslint/js'
 import globals from 'globals'
 import pluginVue from 'eslint-plugin-vue'
 import pluginQuasar from '@quasar/app-vite/eslint'
 import prettierSkipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
-export default [
-  {
-    /**
-     * Ignore the following files.
-     * Please note that pluginQuasar.configs.recommended() already ignores
-     * the "node_modules" folder for you (and all other Quasar project
-     * relevant folders and files).
-     *
-     * ESLint requires "ignores" key to be the only one in this object
-     */
-    // ignores: []
-  },
-
-  ...pluginQuasar.configs.recommended(),
-  js.configs.recommended,
-
+export default [{
   /**
-   * https://eslint.vuejs.org
+   * Ignore the following files.
+   * Please note that pluginQuasar.configs.recommended() already ignores
+   * the "node_modules" folder for you (and all other Quasar project
+   * relevant folders and files).
    *
-   * pluginVue.configs.base
-   *   -> Settings and rules to enable correct ESLint parsing.
-   * pluginVue.configs[ 'flat/essential']
-   *   -> base, plus rules to prevent errors or unintended behavior.
-   * pluginVue.configs["flat/strongly-recommended"]
-   *   -> Above, plus rules to considerably improve code readability and/or dev experience.
-   * pluginVue.configs["flat/recommended"]
-   *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.
+   * ESLint requires "ignores" key to be the only one in this object
    */
-  ...pluginVue.configs['flat/recommended'],
+  // ignores: []
+}, ...pluginQuasar.configs.recommended(), js.configs.recommended, /**
+ * https://eslint.vuejs.org
+ *
+ * pluginVue.configs.base
+ *   -> Settings and rules to enable correct ESLint parsing.
+ * pluginVue.configs[ 'flat/essential']
+ *   -> base, plus rules to prevent errors or unintended behavior.
+ * pluginVue.configs["flat/strongly-recommended"]
+ *   -> Above, plus rules to considerably improve code readability and/or dev experience.
+ * pluginVue.configs["flat/recommended"]
+ *   -> Above, plus rules to enforce subjective community defaults to ensure consistency.
+ */
+...pluginVue.configs['flat/recommended'], {
+  languageOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
 
-  {
-    languageOptions: {
-      ecmaVersion: 'latest',
-      sourceType: 'module',
-
-      globals: {
-        ...globals.browser,
-        ...globals.node, // SSR, Electron, config files
-        process: 'readonly', // process.env.*
-        ga: 'readonly', // Google Analytics
-        cordova: 'readonly',
-        Capacitor: 'readonly',
-        chrome: 'readonly', // BEX related
-        browser: 'readonly', // BEX related
-      },
-    },
-
-    // add your custom rules here
-    rules: {
-      'prefer-promise-reject-errors': 'off',
-
-      // allow debugger during development only
-      'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-      'vue/multi-word-component-names': 'off',
-      'vue/no-v-html': 'off', // TODO: disable locally
-    },
-  },
-
-  {
-    files: ['src-pwa/custom-service-worker.js'],
-    languageOptions: {
-      globals: {
-        ...globals.serviceworker,
-      },
+    globals: {
+      ...globals.browser,
+      ...globals.node, // SSR, Electron, config files
+      process: 'readonly', // process.env.*
+      ga: 'readonly', // Google Analytics
+      cordova: 'readonly',
+      Capacitor: 'readonly',
+      chrome: 'readonly', // BEX related
+      browser: 'readonly', // BEX related
     },
   },
 
-  prettierSkipFormatting,
-]
+  // add your custom rules here
+  rules: {
+    'prefer-promise-reject-errors': 'off',
+
+    // allow debugger during development only
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'vue/multi-word-component-names': 'off',
+    'vue/no-v-html': 'off', // TODO: disable locally
+  },
+}, {
+  files: ['src-pwa/custom-service-worker.js'],
+  languageOptions: {
+    globals: {
+      ...globals.serviceworker,
+    },
+  },
+}, prettierSkipFormatting, ...storybook.configs["flat/recommended"]];
