@@ -27,7 +27,7 @@
     </q-drawer>
 
     <!-- Participants list -->
-    <q-scroll-area class="full-height">
+    <q-scroll-area  style="height: calc(100vh - 50px)">
       <div class="row q-col-gutter-sm q-pa-md">
         <div
           v-for="(user, index) in orderedVoters"

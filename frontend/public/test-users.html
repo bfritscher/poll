@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poll App - Test User Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .current-user {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border-left: 4px solid #007bff;
+        }
+        .test-mode {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+        .normal-mode {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        .user-option {
+            background: #f8f9fa;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button.admin {
+            background: #dc3545;
+        }
+        button.admin:hover {
+            background: #c82333;
+        }
+        button.user {
+            background: #28a745;
+        }
+        button.user:hover {
+            background: #218838;
+        }
+        button.secondary {
+            background: #6c757d;
+        }
+        button.secondary:hover {
+            background: #5a6268;
+        }
+        .code {
+            background: #f8f9fa;
+            padding: 10px;
+            border-left: 4px solid #007bff;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        input[type="number"] {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 60px;
+            margin: 0 5px;
+        }
+        .status {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .error {
+            color: #dc3545;
+        }
+        .success {
+            color: #28a745;
+        }
+        .warning {
+            color: #ffc107;
+        }
+        .instructions {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .quick-users {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .quick-user {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Poll App - Test User Manager</h1>
+        <p>Manage test users for the poll application using the test-utils.js library.</p>
+        
+        <div class="current-user" id="current-status">
+            <div class="status">Loading user status...</div>
+        </div>
+
+        <div class="container">
+            <h2>👑 Admin Mode</h2>
+            <p>Switch to admin mode to manage rooms, questions, and see all participants.</p>
+            <button class="admin" onclick="switchToAdmin()">Become Admin</button>
+            <button class="secondary" onclick="showAdminInstructions()">Show Instructions</button>
+        </div>
+
+        <div class="container">
+            <h2>� User Mode</h2>
+            <p>Switch to user mode to participate in polls and answer questions.</p>
+            
+            <div style="margin: 15px 0;">
+                User ID: <input type="number" id="userId" value="1" min="1" max="20" />
+                <button class="user" onclick="switchToUser()">Become User</button>
+                <button class="secondary" onclick="showUserInstructions()">Show Instructions</button>
+            </div>
+
+            <div class="quick-users">
+                <div class="quick-user">
+                    <strong>User 1</strong><br>
+                    <button class="user" onclick="quickSwitchToUser(1)">Switch</button>
+                </div>
+                <div class="quick-user">
+                    <strong>User 2</strong><br>
+                    <button class="user" onclick="quickSwitchToUser(2)">Switch</button>
+                </div>
+                <div class="quick-user">
+                    <strong>User 3</strong><br>
+                    <button class="user" onclick="quickSwitchToUser(3)">Switch</button>
+                </div>
+                <div class="quick-user">
+                    <strong>User 4</strong><br>
+                    <button class="user" onclick="quickSwitchToUser(4)">Switch</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <h2>🔄 Utilities</h2>
+            <button onclick="refreshStatus()">Refresh Status</button>
+            <button onclick="resetToNormal()">Reset to Normal</button>
+            <button onclick="openConsole()">Open Console</button>
+            <button onclick="goToPollApp()">Go to Poll App</button>
+        </div>
+
+        <div id="output"></div>
+
+        <div class="instructions">
+            <h3>📋 How to Use:</h3>
+            <ol>
+                <li><strong>Backend Setup:</strong> Make sure your backend is running with <code>ENABLE_TEST_MODE=true</code> in your .env file</li>
+                <li><strong>Authentication:</strong> You must have a valid JWT token in localStorage first</li>
+                <li><strong>Switch Users:</strong> Use the buttons above to switch between admin and different users</li>
+                <li><strong>Test Multiple Users:</strong> Open multiple browser tabs/windows with different user IDs</li>
+                <li><strong>Console Access:</strong> All functions are available in the browser console via <code>pollTestUtils</code></li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Load the test utilities -->
+    <script src="test-utils.js"></script>
+    
+    <script>
+        // Initialize the page
+        function init() {
+            updateCurrentStatus();
+            
+            // Auto-refresh status every 5 seconds
+            setInterval(updateCurrentStatus, 5000);
+        }
+
+        function updateCurrentStatus() {
+            const statusDiv = document.getElementById('current-status');
+            
+            if (!window.pollTestUtils) {
+                statusDiv.innerHTML = '<div class="status error">❌ Test utils not loaded</div>';
+                statusDiv.className = 'current-user error';
+                return;
+            }
+
+            const user = pollTestUtils.getCurrentUser();
+            
+            if (!user) {
+                statusDiv.innerHTML = `
+                    <div class="status error">❌ No authentication found</div>
+                    <p>Please authenticate first with a valid JWT token.</p>
+                `;
+                statusDiv.className = 'current-user error';
+                return;
+            }
+
+            if (user.mode === 'test') {
+                statusDiv.innerHTML = `
+                    <div class="status success">🧪 TEST MODE ACTIVE</div>
+                    <strong>Test User:</strong> ${user.test.email}<br>
+                    <strong>Name:</strong> ${user.test.firstname} ${user.test.lastname}<br>
+                    <strong>Role:</strong> ${user.test.isAdmin ? '👑 Admin' : '👤 User'}<br>
+                    <hr style="margin: 10px 0;">
+                    <small><strong>Original User:</strong> ${user.original.email} (${user.original.firstname} ${user.original.lastname})</small>
+                `;
+                statusDiv.className = 'current-user test-mode';
+            } else {
+                statusDiv.innerHTML = `
+                    <div class="status success">✅ Normal Mode</div>
+                    <strong>User:</strong> ${user.email}<br>
+                    <strong>Name:</strong> ${user.firstname} ${user.lastname}
+                `;
+                statusDiv.className = 'current-user normal-mode';
+            }
+        }
+
+        function switchToAdmin() {
+            if (!window.pollTestUtils) {
+                alert('Test utils not loaded');
+                return;
+            }
+            
+            showOutput('Switching to admin mode...');
+            pollTestUtils.quickSwitch('admin').then(success => {
+                if (success) {
+                    showOutput('✅ Successfully switched to admin mode! Changes should be visible immediately.');
+                    updateCurrentStatus();
+                } else {
+                    showOutput('❌ Failed to switch to admin mode. Check console for details.');
+                }
+            });
+        }
+
+        function switchToUser() {
+            const userId = document.getElementById('userId').value || '1';
+            
+            if (!window.pollTestUtils) {
+                alert('Test utils not loaded');
+                return;
+            }
+            
+            showOutput(`Switching to User ${userId} mode...`);
+            pollTestUtils.quickSwitch('user', userId).then(success => {
+                if (success) {
+                    showOutput(`✅ Successfully switched to User ${userId} mode! Changes should be visible immediately.`);
+                    updateCurrentStatus();
+                } else {
+                    showOutput(`❌ Failed to switch to User ${userId} mode. Check console for details.`);
+                }
+            });
+        }
+
+        function quickSwitchToUser(userId) {
+            document.getElementById('userId').value = userId;
+            
+            if (!window.pollTestUtils) {
+                alert('Test utils not loaded');
+                return;
+            }
+            
+            showOutput(`Quick switching to User ${userId}...`);
+            pollTestUtils.quickSwitch('user', userId).then(success => {
+                if (success) {
+                    showOutput(`✅ Successfully switched to User ${userId}! Changes should be visible immediately.`);
+                    updateCurrentStatus();
+                } else {
+                    showOutput(`❌ Failed to switch to User ${userId}. Check console for details.`);
+                }
+            });
+        }
+
+        function resetToNormal() {
+            if (!window.pollTestUtils) {
+                alert('Test utils not loaded');
+                return;
+            }
+            
+            showOutput('Resetting to normal mode...');
+            pollTestUtils.quickSwitch('normal').then(success => {
+                if (success) {
+                    showOutput('✅ Successfully reset to normal mode! Changes should be visible immediately.');
+                    updateCurrentStatus();
+                } else {
+                    showOutput('❌ Failed to reset to normal mode. Check console for details.');
+                }
+            });
+        }
+
+        function showAdminInstructions() {
+            showOutput('Use the "Become Admin" button to instantly switch to admin mode. No manual setup required!');
+        }
+
+        function showUserInstructions() {
+            const userId = document.getElementById('userId').value || '1';
+            showOutput(`Use the "Become User" button to instantly switch to User ${userId} mode. No manual setup required!`);
+        }
+
+        function refreshStatus() {
+            updateCurrentStatus();
+            showOutput('Status refreshed.');
+        }
+
+        function openConsole() {
+            alert('Press F12 to open Developer Tools, then go to the Console tab.\n\nAvailable commands:\n- pollTestUtils.whoAmI()\n- pollTestUtils.becomeAdmin()\n- pollTestUtils.becomeUser(id)\n- pollTestUtils.simpleTestMode(type, id)');
+        }
+
+        function goToPollApp() {
+            window.location.href = '/poll/';
+        }
+
+        function showOutput(message) {
+            const output = document.getElementById('output');
+            const timestamp = new Date().toLocaleTimeString();
+            output.innerHTML = `
+                <div class="container">
+                    <h3>📝 Last Action</h3>
+                    <div class="code">[${timestamp}] ${message}</div>
+                </div>
+            `;
+        }
+
+        // Initialize when page loads
+        window.onload = init;
+
+        // Also listen for storage changes (in case JWT is updated in another tab)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'jwt') {
+                updateCurrentStatus();
+            }
+        });
+    </script>
+</body>
+</html>

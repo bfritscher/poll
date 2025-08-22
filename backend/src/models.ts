@@ -3,6 +3,12 @@ import jwt from 'jsonwebtoken';
 
 let admins = ['boris.fritscher@he-arc.ch'];
 
+// Add test emails to admins list in development mode
+if (process.env.NODE_ENV === 'development') {
+  admins.push('test.admin@example.com');
+  console.log('[DEV] Test admin accounts enabled');
+}
+
 export class User {
   id: number = -1;
   email: string = 'unknown';
@@ -18,10 +24,28 @@ export class User {
           return reject(err);
         }
         let user = new User();
-        user.email = decoded?.email || 'unknown';
-        user.firstname = decoded?.firstname || 'unknown';
-        user.lastname = decoded?.lastname || 'unknown';
-        user.isAdmin = admins.indexOf(user.email) > -1;
+
+        // Allow overriding user data in test mode
+        if (process.env.NODE_ENV === 'development' && decoded?.testMode) {
+          // Check for test flags in JWT payload
+            console.log('[DEV] Test mode detected in JWT');
+            user.email = decoded.testEmail || decoded.email || 'test.user@example.com';
+            user.firstname = decoded.testFirstname || decoded.firstname || 'Test';
+            user.lastname = decoded.testLastname || decoded.lastname || 'User';
+
+            // Allow forcing admin or user role
+            if (decoded.forceAdmin !== undefined) {
+              user.isAdmin = decoded.forceAdmin;
+            } else {
+              user.isAdmin = admins.indexOf(user.email) > -1;
+            }
+        } else {
+          // Production mode - normal JWT processing
+          user.email = decoded?.email || 'unknown';
+          user.firstname = decoded?.firstname || 'unknown';
+          user.lastname = decoded?.lastname || 'unknown';
+          user.isAdmin = admins.indexOf(user.email) > -1;
+        }
 
         db.User.findOrCreate({
           where: {
