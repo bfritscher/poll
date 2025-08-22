@@ -2,10 +2,12 @@
   <q-layout view="lHh Lpr lFf">
     <q-header v-if="!inRoom" elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-avatar square size="24px">
-          <img src="/icons/logo.svg" alt="Logo" />
-        </q-avatar>
-        <q-toolbar-title> Poll </q-toolbar-title>
+        <q-btn flat no-caps to="/">
+          <q-avatar square size="24px">
+            <img src="/icons/logo.svg" alt="Logo" />
+          </q-avatar>
+          <q-toolbar-title> Poll </q-toolbar-title>
+        </q-btn>
       </q-toolbar>
     </q-header>
 

@@ -1,40 +1,40 @@
 <template>
-  <q-toolbar>
-      <q-btn flat no-caps to="/" class="q-mr-sm">
+  <q-header elevated class="bg-primary text-white">
+    <q-toolbar class="row justify-between">
+      <q-btn flat no-caps to="/">
         <q-avatar square size="24px">
           <img src="/icons/logo.svg" alt="Logo" />
-          </q-avatar>
+        </q-avatar>
         <q-toolbar-title>Poll</q-toolbar-title>
       </q-btn>
 
-    <div class="room-toolbar-state">
-      <span class="room-toolbar-name">{{ comStore.room?.name }}</span>
-      <span v-if="comStore.room?.state === 'lobby'">Lobby</span>
-      <span v-if="comStore.room?.state === 'results'">Results</span>
-      <span v-if="comStore.room?.state?.indexOf('q') === 0">
-        {{ comStore.questionIndex + 1 }} / {{ comStore.room?.questionsCount }}
-      </span>
-      <q-icon v-if="comStore.question?.isMultiple" name="done_all" />
-      <q-btn
-        v-if="$route.name === 'admin'"
-        :to="{ name: 'room', params: { name: comStore.room?.name } }"
-        target="_blank"
-        flat
-        dense
-        round
-        icon="launch"
-      />
-    </div>
-
-    <div class="flex"></div>
-
-    <div class="room-toolbar-votes text-right">
-      <div v-if="comStore.room?.state?.indexOf('q') === 0">
-        {{ comStore.question?.votesCount || 0 }}
+      <div class="room-toolbar-state">
+        <span class="room-toolbar-name">{{ comStore.room?.name }}</span>
+        <span v-if="comStore.room?.state === 'lobby'">Lobby</span>
+        <span v-if="comStore.room?.state === 'results'">Results</span>
+        <span v-if="comStore.room?.state?.indexOf('q') === 0">
+          {{ comStore.questionIndex + 1 }} / {{ comStore.room?.questionsCount }}
+        </span>
+        <q-icon v-if="comStore.question?.isMultiple" name="done_all" />
+        <q-btn
+          v-if="$route.name === 'admin'"
+          :to="{ name: 'room', params: { name: comStore.room?.name } }"
+          target="_blank"
+          flat
+          dense
+          round
+          icon="launch"
+        />
       </div>
-      <div>{{ votersCount }}</div>
-    </div>
-  </q-toolbar>
+
+      <div class="room-toolbar-votes text-right">
+        <div v-if="comStore.room?.state?.indexOf('q') === 0">
+          {{ comStore.question?.votesCount || 0 }}
+        </div>
+        <div>{{ votersCount }}</div>
+      </div>
+    </q-toolbar>
+  </q-header>
 </template>
 
 <script setup>

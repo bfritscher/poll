@@ -141,7 +141,9 @@ export const useComStore = defineStore('com', () => {
 
     socket.on('close', () => {
       const router = useRouter()
-      router.push({ name: 'home' })
+      if (router) {
+        router.push({ name: 'home' })
+      }
     })
 
     socket.on(SocketEvents.STATE, (data) => {
@@ -337,20 +339,20 @@ export const useComStore = defineStore('com', () => {
     if (!room.value) return
 
     if (
-      room.value.state === SocketEvents.ROOM_STATES.LOBBY ||
-      room.value.state === SocketEvents.ROOM_STATES.RESULTS
+      room.value.state === SocketEvents.RoomState.LOBBY ||
+      room.value.state === SocketEvents.RoomState.RESULTS
     ) {
       if (room.value.questions && room.value.questions.length > 0) {
         setState('q0')
       } else {
-        setState(SocketEvents.ROOM_STATES.RESULTS)
+        setState(SocketEvents.RoomState.RESULTS)
       }
     } else if (room.value.state.indexOf('q') === 0) {
       const currentIndex = parseInt(room.value.state.slice(1), 10)
       if (currentIndex < room.value.questions.length - 1) {
         setState('q' + (currentIndex + 1))
       } else {
-        setState(SocketEvents.ROOM_STATES.RESULTS)
+        setState(SocketEvents.RoomState.RESULTS)
       }
     }
   }
@@ -358,18 +360,18 @@ export const useComStore = defineStore('com', () => {
   function previousState() {
     if (!room.value) return
 
-    if (room.value.state === SocketEvents.ROOM_STATES.RESULTS) {
+    if (room.value.state === SocketEvents.RoomState.RESULTS) {
       if (room.value.questions && room.value.questions.length > 0) {
         setState('q' + (room.value.questions.length - 1))
       } else {
-        setState(SocketEvents.ROOM_STATES.LOBBY)
+        setState(SocketEvents.RoomState.LOBBY)
       }
     } else if (room.value.state.indexOf('q') === 0) {
       const currentIndex = parseInt(room.value.state.slice(1), 10)
       if (currentIndex > 0) {
         setState('q' + (currentIndex - 1))
       } else {
-        setState(SocketEvents.ROOM_STATES.LOBBY)
+        setState(SocketEvents.RoomState.LOBBY)
       }
     }
   }
