@@ -192,8 +192,7 @@ import { useComStore } from 'src/stores/com'
 import RoomToolbar from 'src/components/shared/RoomToolbar.vue'
 import Results from 'src/components/room/Results.vue'
 import VoteResultCard from 'src/components/shared/VoteResultCard.vue'
-import { avatars } from 'src/constants'
-import * as SocketEvents from 'src/socket-events' // added
+import * as SocketEvents from 'src/socket-events'
 
 const route = useRoute()
 const router = useRouter()

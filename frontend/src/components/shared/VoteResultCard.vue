@@ -25,10 +25,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import { avatars } from 'src/constants'
 
-const props = defineProps({
+defineProps({
   /**
    * Array of user objects to display
    */
