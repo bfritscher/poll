@@ -1,5 +1,5 @@
 <template>
-  <q-scroll-area class="full-height bg-grey-2">
+  <q-scroll-area class="bg-grey-2" style="height: calc(100vh - 50px)">
     <div class="q-pa-md">
       <!-- Question content -->
       <div class="question-content q-mb-md" v-html="comStore.question?.content"></div>
@@ -8,7 +8,8 @@
       <div v-for="(answer, index) in comStore.question?.answers" :key="index">
         <div class="answer q-mb-md" :class="{ selected: exists(index) }">
           <div
-            class="answer-content row items-center q-pa-md"
+            v-ripple
+            class="answer-content row align-start q-pt-sm q-pb-sm q-pr-sm"
             :class="{ disabled: comStore.question?.stop }"
             @click="toggleAnswer(index)"
           >
@@ -19,7 +20,7 @@
                 @update:model-value="toggleAnswer(index)"
               />
             </div>
-            <div class="q-ml-sm flex-grow" v-html="answer.content"></div>
+            <div class="col-grow" v-html="answer.content"></div>
           </div>
 
           <!-- Results bar -->
