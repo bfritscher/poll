@@ -185,15 +185,16 @@ export const useComStore = defineStore('com', () => {
       }
     })
 
-    socket.on(SocketEvents.VOTES_COUNT, (count) => {
-      if (question.value) {
-        question.value.votesCount = count
-      }
+    socket.on(SocketEvents.VOTES_COUNT, (data) => {
+      question.value.votesCount = data.v
     })
 
     socket.on(SocketEvents.VOTE, (data) => {
-      if (room.value && room.value.questions) {
-        room.value.questions[data.questionIndex].votes[data.user] = data.vote
+      if (room.value && room.value.questions && data.q !== undefined) {
+        if (!room.value.questions[data.q].votes) {
+          room.value.questions[data.q].votes = {}
+        }
+        room.value.questions[data.q].votes[data.u] = data.v
       }
     })
 
