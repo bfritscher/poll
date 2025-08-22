@@ -1,7 +1,3 @@
-- test stats
-- test shortcuts (1-9 select)
-
-
 new features ideas
 - room creation better defaults maybe select button for + custom
 - validate on multiple answers

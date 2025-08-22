@@ -1,5 +1,5 @@
 <template>
-  <q-scroll-area class="full-height bg-grey-2">
+  <q-scroll-area class="bg-grey-2" style="height: calc(100vh - 50px)">
     <div class="row q-pa-md q-col-gutter-md">
       <div
         v-for="(score, index) in comStore.results"
