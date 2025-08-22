@@ -326,35 +326,39 @@ const stateOptions = computed(() => {
 
 const votersWithoutAnswer = computed(() => {
   const questionIndex = comStore.questionIndex
-  if (!comStore.room?.voters || questionIndex === undefined) return []
+  if (!comStore.room || questionIndex === undefined) return []
 
   const currentVotes = comStore.room.questions?.[questionIndex]?.votes || {}
-  const voterKeys = Object.keys(comStore.room.voters)
 
-  return (
-    voterKeys
-      // Use Object.prototype.hasOwnProperty.call for safety
-      .filter((userKey) => !Object.prototype.hasOwnProperty.call(currentVotes, userKey))
-      .map((userKey) => comStore.room.voters[userKey])
-      .sort(comStore.userSorter)
-  ) // Assuming userSorter exists in comStore
+  // Combine voters (online) and participants (who have voted) to get all relevant users
+  const allUsers = { ...comStore.room.participants, ...comStore.room.voters }
+  const userKeys = Object.keys(allUsers)
+
+  const result = userKeys
+    // Use Object.prototype.hasOwnProperty.call for safety
+    .filter((userKey) => !Object.prototype.hasOwnProperty.call(currentVotes, userKey))
+    .map((userKey) => allUsers[userKey])
+    .filter((user) => !!user) // Filter out potential missing users
+    .sort(comStore.userSorter)
+  return result
 })
 
 const votersByAnswer = (answerIndex) => {
   const questionIndex = comStore.questionIndex
-  if (!comStore.room?.voters || questionIndex === undefined) return []
+  if (!comStore.room || questionIndex === undefined) return []
 
   const currentVotes = comStore.room.questions?.[questionIndex]?.votes || {}
-  const participants = comStore.room.participants || {} // Use participants which should include details
 
-  return (
-    Object.entries(currentVotes)
-      // Check if vote array includes the answerIndex
-      .filter(([, vote]) => vote && Array.isArray(vote) && vote.includes(answerIndex))
-      .map(([userKey]) => participants[userKey]) // Get full user object
-      .filter((user) => !!user) // Filter out potential missing users
-      .sort(comStore.userSorter)
-  )
+  // Combine voters (online) and participants (who have voted) to get all relevant users
+  const allUsers = { ...comStore.room.participants, ...comStore.room.voters }
+
+  const result = Object.entries(currentVotes)
+    // Check if vote array includes the answerIndex
+    .filter(([, vote]) => vote && Array.isArray(vote) && vote.includes(answerIndex))
+    .map(([userKey]) => allUsers[userKey]) // Get full user object
+    .filter((user) => !!user) // Filter out potential missing users
+    .sort(comStore.userSorter)
+  return result
 }
 
 // --- Utility ---

@@ -132,7 +132,9 @@ export const useComStore = defineStore('com', () => {
     })
 
     socket.on(SocketEvents.QUESTIONS, (data) => {
-      if (room.value) room.value.questions = data
+      if (room.value) {
+        room.value.questions = data
+      }
     })
 
     socket.on(SocketEvents.QUESTIONS_COUNT, (data) => {
@@ -165,6 +167,13 @@ export const useComStore = defineStore('com', () => {
         if (index !== undefined && (!answers.value[index] || data.reset)) {
           answers.value[index] = []
         }
+
+        // Handle reset: clear votes from room questions data
+        if (data.reset && room.value && room.value.questions && index !== undefined) {
+          if (room.value.questions[index]) {
+            room.value.questions[index].votes = {}
+          }
+        }
       }
     })
 
@@ -194,7 +203,22 @@ export const useComStore = defineStore('com', () => {
         if (!room.value.questions[data.q].votes) {
           room.value.questions[data.q].votes = {}
         }
-        room.value.questions[data.q].votes[data.u] = data.v
+
+        // Ensure proper reactivity by creating a new votes object
+        const newVotes = { ...room.value.questions[data.q].votes }
+        newVotes[data.u] = data.v
+        room.value.questions[data.q].votes = newVotes
+
+        // Ensure participants list is initialized and includes the voting user
+        if (!room.value.participants) {
+          room.value.participants = {}
+        }
+        // If the voting user is in voters (online), add them to participants with proper reactivity
+        if (room.value.voters && room.value.voters[data.u]) {
+          const newParticipants = { ...room.value.participants }
+          newParticipants[data.u] = room.value.voters[data.u]
+          room.value.participants = newParticipants
+        }
       }
     })
 
