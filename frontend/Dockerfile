@@ -2,11 +2,13 @@
 FROM node:22-alpine AS builder
 
 WORKDIR /app
+RUN npm install -g @quasar/cli
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --ignore-scripts
 
 COPY . .
-RUN npm run build
+RUN quasar prepare
+RUN quasar build
 
 # Production stage with nginx
 FROM nginx:alpine
