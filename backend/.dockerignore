@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log*
+.npm
+.eslintcache
+.nyc_output
+dist
+.vscode
+.DS_Store
+.env.local
+.env.*.local
+*.log
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+database.sqlite

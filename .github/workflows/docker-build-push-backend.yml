@@ -1,0 +1,28 @@
+name: Build and Push backend to GitHub Container Registry
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+jobs:
+  build_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: Check out code
+      
+      - uses: mr-smithers-excellent/docker-build-push@v6
+        name: Build & push backend Docker image
+        with:
+          image: poll-backend
+          addLatest: true
+          registry: ghcr.io
+          # githubOrg: override-org # optional
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
+          directory: backend
+          dockerfile: ./backend/Dockerfile

@@ -1,0 +1,48 @@
+services:
+  backend:
+    image: ghcr.io/bfritscher/poll-backend:latest
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+    networks:
+      - default
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
+      - "traefik.http.services.poll-backend.loadbalancer.server.port=3033"
+      - "traefik.http.routers.poll-backend.rule=Host(`quiz.bf0.ch`) && PathPrefix(`/api`, `/socket.io`)"
+      - "traefik.http.routers.poll-backend.entrypoints=web"
+      - "traefik.http.routers.poll-backend.middlewares=https_redirect"
+      - "traefik.http.routers.poll-backend_secured.rule=Host(`quiz.bf0.ch`) && PathPrefix(`/api`, `/socket.io`)"
+      - "traefik.http.routers.poll-backend_secured.entrypoints=websecure"
+      - "traefik.http.routers.poll-backend_secured.tls=true"
+      - "traefik.http.routers.poll-backend_secured.tls.certresolver=myresolver"
+
+  frontend:
+    image: ghcr.io/bfritscher/poll-frontend:latest
+    restart: unless-stopped
+    networks:
+      - default
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
+      - "traefik.http.services.poll-frontend.loadbalancer.server.port=80"
+      - "traefik.http.routers.poll-frontend.rule=Host(`quiz.bf0.ch`)"
+      - "traefik.http.routers.poll-frontend.entrypoints=web"
+      - "traefik.http.routers.poll-frontend.middlewares=https_redirect"
+      - "traefik.http.routers.poll-frontend_secured.rule=Host(`quiz.bf0.ch`)"
+      - "traefik.http.routers.poll-frontend_secured.entrypoints=websecure"
+      - "traefik.http.routers.poll-frontend_secured.tls=true"
+      - "traefik.http.routers.poll-frontend_secured.tls.certresolver=myresolver"
+
+networks:
+  web:
+    external: true
+
