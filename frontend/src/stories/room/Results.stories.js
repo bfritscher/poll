@@ -11,8 +11,6 @@ export default {
   },
 }
 
-export const Default = {}
-
 export const SingleWinner = {
   decorators: [
     () => ({

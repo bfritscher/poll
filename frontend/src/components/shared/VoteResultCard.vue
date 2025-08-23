@@ -1,15 +1,15 @@
 <template>
-  <q-card :class="cardClass">
-    <q-card-section>
-      <div class="text-h6">
+  <q-card>
+    <q-card-section class="bg-grey-1 text-primary">
+      <div>
         <span v-if="answerIndex !== undefined">{{ answerIndex + 1 }}. </span>
         <span v-if="isCorrect">(correct)</span>
         <span v-if="title">{{ title }}</span>
-        <div v-if="answerContent" class="overflow-hidden" v-html="answerContent"></div>
       </div>
+      <div v-if="answerContent" class="overflow-hidden" v-html="answerContent"></div>
     </q-card-section>
-    <q-list dense>
-      <q-item v-for="(user, index) in users" :key="user.email || index">
+    <q-list class="row q-pb-sm q-pt-sm">
+      <q-item v-for="(user, index) in users" :key="user.email || index" dense class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-1">
         <q-item-section avatar>
           <q-avatar>
             <img :src="getAvatarUrl(user, index)" />
@@ -70,13 +70,6 @@ defineProps({
     type: String,
     default: 'No users found.',
   },
-  /**
-   * Additional CSS classes for the card
-   */
-  cardClass: {
-    type: String,
-    default: '',
-  },
 })
 
 const getAvatarUrl = (user, index) => {
@@ -90,12 +83,3 @@ const getAvatarUrl = (user, index) => {
 }
 </script>
 
-<style lang="scss" scoped>
-.q-card {
-  .q-card-section .text-h6 {
-    .overflow-hidden {
-      margin-top: 8px;
-    }
-  }
-}
-</style>

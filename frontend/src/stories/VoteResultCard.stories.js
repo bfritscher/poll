@@ -29,10 +29,6 @@ export default {
       description: 'Message to show when no users are present',
       control: { type: 'text' },
     },
-    cardClass: {
-      description: 'Additional CSS classes for the card',
-      control: { type: 'text' },
-    },
   },
 }
 
@@ -146,7 +142,6 @@ export const CustomStyled = {
   args: {
     title: 'Special Answer',
     users: sampleUsers.slice(0, 1),
-    cardClass: 'q-mt-md bg-blue-1',
     emptyMessage: 'No special votes.',
   },
 }

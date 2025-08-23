@@ -153,7 +153,7 @@
               :answer-content="answer.content"
               :users="votersByAnswer(answerIndex)"
               empty-message="No votes for this answer."
-              card-class="q-mt-md"
+              class="q-mt-md"
             />
           </div>
 
