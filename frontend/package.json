@@ -1,8 +1,8 @@
 {
   "name": "poll",
-  "version": "0.0.1",
-  "description": "A Quasar Project",
-  "productName": "Quasar App",
+  "version": "2.0.0",
+  "description": "Frontend for poll app",
+  "productName": "Poll",
   "author": "Boris Fritscher <boris@fritscher.ch>",
   "type": "module",
   "private": true,
