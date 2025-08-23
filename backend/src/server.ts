@@ -52,6 +52,9 @@ app.get('/api/course/:name', (req: express.Request, res: express.Response) => {
   db.getCourseDetail(req.params.name).then((result) => {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(result));
+  }).catch((error) => {
+    console.error(`[${new Date().toISOString()}] Error fetching course detail for ${req.params.name}:`, error);
+    res.status(500).json({ error: 'Internal server error' });
   });
 });
 

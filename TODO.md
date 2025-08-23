@@ -1,7 +1,5 @@
-glitchtips
-deployment
-
-## new features ideas
+# Features ideas
+- glitchtips with source upload
 - room creation better defaults maybe select button for + custom
 - validate on multiple answers
 - negative points on multi select?

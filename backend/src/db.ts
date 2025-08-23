@@ -125,12 +125,12 @@ export function getCourseDetail(courseName: string) {
 FROM (SELECT s.id session_guid, s.name session_name, s.course session_course, s.created session_date,
 q.id question_guid, q.content question_text, (julianday(q.stop) - julianday(q.start)) * 86400 question_time,
 r.user_id answer_deviceid,
-SUM(CASE WHEN a.correct AND r.answer LIKE '%' || a.index || '%'
+SUM(CASE WHEN a.correct AND r.answer LIKE '%' || a."index" || '%'
 THEN 1 ELSE 0 END) answer_points,
 r.answer answer_given, (julianday(r.updated_at) - julianday(q.start)) * 86400 answer_time_taken,
-GROUP_CONCAT(CASE WHEN a.correct THEN a.index ELSE '' END, '') answer,
+GROUP_CONCAT(CASE WHEN a.correct THEN a."index" ELSE '' END, '') answer,
 GROUP_CONCAT(CASE WHEN a.correct THEN a.content || char(10) ELSE '' END, '') answer_text,
-GROUP_CONCAT(CASE WHEN r.answer LIKE '%' || a.index || '%' THEN a.content || char(10) ELSE '' END, '') answer_text_given,
+GROUP_CONCAT(CASE WHEN r.answer LIKE '%' || a."index" || '%' THEN a.content || char(10) ELSE '' END, '') answer_text_given,
 u.lastname, u.firstname, u.email
 FROM "sessions" s JOIN "questions" q ON s.id = q.session_id JOIN "answers" a ON q.id = a.question_id
 LEFT JOIN "votes" r ON q.id = r.question_id
