@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Create a custom axios instance
 const api = axios.create({
-  baseURL: 'http://localhost:3033/api',
+  baseURL: '/api',
 })
 
 // Add a request interceptor to include JWT token

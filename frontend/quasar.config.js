@@ -81,7 +81,13 @@ export default defineConfig((/* ctx */) => {
         '/api': {
           target: 'http://localhost:3033',
           changeOrigin: true,
-        }
+        },
+        '/socket.io': {
+          target: 'ws://localhost:3033/socket.io',
+          changeOrigin: true,
+          ws: true,
+
+        },
       }
     },
 

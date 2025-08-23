@@ -37,7 +37,7 @@ app.post(
   urlencodeParser,
   (req: express.Request, res: express.Response) => {
     res.send(
-      `<script>localStorage.setItem('jwt', '${req.body.jwt}');window.location='/poll/';</script>`
+      `<script>localStorage.setItem('jwt', '${req.body.jwt}');window.location='/';</script>`
     );
   }
 );

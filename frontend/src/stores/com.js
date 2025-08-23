@@ -9,7 +9,7 @@ export const useComStore = defineStore('com', () => {
   const router = useRouter()
 
   // Create a Socket.io instance with configuration
-  const socket = io('localhost:3033', {
+  const socket = io({
     transports: ['websocket', 'polling'], // Try WebSocket first, then fallback to polling
     reconnection: true,
     reconnectionAttempts: Infinity,
