@@ -4,9 +4,9 @@ import path from 'path';
 
 // Change to SQLite connection
 export const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: path.join(process.cwd(), 'database.sqlite'),
-    logging: false
+  dialect: 'sqlite',
+  storage: path.join(process.cwd(), 'data', 'database.sqlite'),
+  logging: false
 });
 
 // Model definition
