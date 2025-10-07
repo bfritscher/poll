@@ -26,3 +26,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           directory: backend
           dockerfile: ./backend/Dockerfile
+
+      - name: Trigger deployment
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"folder": "poll"}' \
+            https://bf0.ch/hooks/deploy-service
